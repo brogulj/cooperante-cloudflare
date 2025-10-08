@@ -36,5 +36,7 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit"
     }
-  }
+  },
+  "kiroAgent.configureMCP": "Disabled",
+  "i18n-ally.localesPaths": ["src/locales", "src/app/i18n"]
 }

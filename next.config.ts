@@ -6,6 +6,16 @@ initOpenNextCloudflareForDev({ environment: process.env.CLOUDFLARE_ENV })
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/**',
+      },
+    ],
+  },
   webpack: (webpackConfig: any) => {
     webpackConfig.resolve.extensionAlias = {
       '.cjs': ['.cts', '.cjs'],
@@ -15,6 +25,6 @@ const nextConfig = {
 
     return webpackConfig
   },
-}
+} satisfies import('next').NextConfig
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })
