@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     pages: Page;
     jobAds: JobAd;
+    blogPosts: BlogPost;
+    categories: Category;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -81,6 +83,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     jobAds: JobAdsSelect<false> | JobAdsSelect<true>;
+    blogPosts: BlogPostsSelect<false> | BlogPostsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -174,7 +178,18 @@ export interface Page {
   title: string;
   slug?: string | null;
   slugLock?: boolean | null;
-  content?: (LanderHero | TrustBlock | ServicesBlock | JobBoardBlock)[] | null;
+  content?:
+    | (
+        | LanderHero
+        | TrustBlock
+        | ServicesBlock
+        | JobBoardBlock
+        | IndustriesBlock
+        | TestimonialsBlock
+        | WorkersTestimonialsBlock
+        | FAQBlock
+      )[]
+    | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -307,6 +322,97 @@ export interface JobBoardBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IndustriesBlock".
+ */
+export interface IndustriesBlock {
+  title: string;
+  description: string;
+  subtitle: string;
+  countriesTitle: string;
+  industries?:
+    | {
+        image: number | Media;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  countries?:
+    | {
+        country: string;
+        flag: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  seoLine: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'IndustriesBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialsBlock".
+ */
+export interface TestimonialsBlock {
+  title: string;
+  subtitle: string;
+  testimonials?:
+    | {
+        personImage: number | Media;
+        companyLogo: number | Media;
+        personName: string;
+        personTitle: string;
+        testimonial: string;
+        numberOfStars: number;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'TestimonialsBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WorkersTestimonialsBlock".
+ */
+export interface WorkersTestimonialsBlock {
+  title: string;
+  subtitle: string;
+  testimonials?:
+    | {
+        personImage: number | Media;
+        countryFlag: number | Media;
+        personName: string;
+        personTitle: string;
+        testimonial: string;
+        numberOfStars: number;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'WorkersTestimonialsBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlock".
+ */
+export interface FAQBlock {
+  title: string;
+  description: string;
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'FAQBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "jobAds".
  */
 export interface JobAd {
@@ -321,6 +427,58 @@ export interface JobAd {
   shortDescription: string;
   benefits: string;
   translated?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blogPosts".
+ */
+export interface BlogPost {
+  id: number;
+  title: string;
+  categories?: (number | Category)[] | null;
+  headerImage?: (number | null) | Media;
+  headerTheme?: ('light' | 'dark') | null;
+  author?: (number | null) | User;
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  name: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -346,6 +504,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'jobAds';
         value: number | JobAd;
+      } | null)
+    | ({
+        relationTo: 'blogPosts';
+        value: number | BlogPost;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -443,6 +609,10 @@ export interface PagesSelect<T extends boolean = true> {
         TrustBlock?: T | TrustBlockSelect<T>;
         ServicesBlock?: T | ServicesBlockSelect<T>;
         JobBoardBlock?: T | JobBoardBlockSelect<T>;
+        IndustriesBlock?: T | IndustriesBlockSelect<T>;
+        TestimonialsBlock?: T | TestimonialsBlockSelect<T>;
+        WorkersTestimonialsBlock?: T | WorkersTestimonialsBlockSelect<T>;
+        FAQBlock?: T | FAQBlockSelect<T>;
       };
   meta?:
     | T
@@ -567,6 +737,93 @@ export interface JobBoardBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IndustriesBlock_select".
+ */
+export interface IndustriesBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  subtitle?: T;
+  countriesTitle?: T;
+  industries?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  countries?:
+    | T
+    | {
+        country?: T;
+        flag?: T;
+        id?: T;
+      };
+  seoLine?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialsBlock_select".
+ */
+export interface TestimonialsBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  testimonials?:
+    | T
+    | {
+        personImage?: T;
+        companyLogo?: T;
+        personName?: T;
+        personTitle?: T;
+        testimonial?: T;
+        numberOfStars?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WorkersTestimonialsBlock_select".
+ */
+export interface WorkersTestimonialsBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  testimonials?:
+    | T
+    | {
+        personImage?: T;
+        countryFlag?: T;
+        personName?: T;
+        personTitle?: T;
+        testimonial?: T;
+        numberOfStars?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlock_select".
+ */
+export interface FAQBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "jobAds_select".
  */
 export interface JobAdsSelect<T extends boolean = true> {
@@ -580,6 +837,41 @@ export interface JobAdsSelect<T extends boolean = true> {
   shortDescription?: T;
   benefits?: T;
   translated?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blogPosts_select".
+ */
+export interface BlogPostsSelect<T extends boolean = true> {
+  title?: T;
+  categories?: T;
+  headerImage?: T;
+  headerTheme?: T;
+  author?: T;
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
+  content?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -846,6 +1138,17 @@ export interface FooterSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MediaBlock".
+ */
+export interface MediaBlock {
+  media: number | Media;
+  caption?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'MediaBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

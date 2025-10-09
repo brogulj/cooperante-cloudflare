@@ -10,6 +10,7 @@ import type { Props as MediaProps } from '../types'
 
 import { cssVariables } from '@/cssVariables'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
+import { Media } from '@/payload-types'
 
 const { breakpoints } = cssVariables
 
@@ -69,7 +70,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         quality={100}
         loading={loading}
         sizes={sizes}
-        src={src}
+        src={(resource as Media).url}
         width={!fill ? width : undefined}
       />
     </picture>

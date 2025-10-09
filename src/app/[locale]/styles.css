@@ -255,3 +255,15 @@
     transform: translateX(0);
   }
 }
+
+.payload-richtext ul {
+  @apply list-disc list-inside mb-4;
+}
+
+.payload-richtext ol {
+  @apply list-decimal list-inside mb-4;
+}
+
+.font-geist {
+  font-family: 'Geist', sans-serif;
+}

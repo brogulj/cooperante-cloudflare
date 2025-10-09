@@ -1,5 +1,7 @@
 import React from 'react'
 import './styles.css'
+import { GeistSans } from 'geist/font/sans'
+import { GeistMono } from 'geist/font/mono'
 import { Navbar } from '@/components/frontend/navbar'
 import { Footer } from '@/components/frontend/footer'
 import { getPayload } from 'payload'
@@ -26,8 +28,8 @@ export default async function RootLayout(props: {
   ])
 
   return (
-    <html>
-      <body className="min-h-screen flex flex-col">
+    <html className={`${GeistSans.variable} ${GeistMono.variable}`}>
+      <body className={`min-h-screen flex flex-col ${GeistSans.className}`}>
         <Navbar navbar={navbar} />
         <main className="flex-1 mt-[62px] flex flex-col">{children}</main>
         <Footer footer={footer} />

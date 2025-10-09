@@ -6,6 +6,10 @@ import { slugField } from '@/fields/slug'
 import { TrustBlock } from '@/blocks/TrustBlock/config'
 import { ServicesBlock } from '@/blocks/ServicesBlock/config'
 import { JobBoardBlock } from '@/blocks/JobBoardBlock/config'
+import { IndustriesBlock } from '@/blocks/IndustriesBlock/config'
+import { TestimonialsBlock } from '@/blocks/TestimonialsBlock/config'
+import { WorkersTestimonialsBlock } from '@/blocks/WorkersTestimonialsBlock/config'
+import { FAQBlock } from '@/blocks/FAQBlock/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -46,7 +50,16 @@ export const Pages: CollectionConfig<'pages'> = {
         en: 'Content',
         hr: 'Sadržaj',
       },
-      blocks: [LanderHero, TrustBlock, ServicesBlock, JobBoardBlock],
+      blocks: [
+        LanderHero,
+        TrustBlock,
+        ServicesBlock,
+        JobBoardBlock,
+        IndustriesBlock,
+        TestimonialsBlock,
+        WorkersTestimonialsBlock,
+        FAQBlock,
+      ],
     },
   ],
 }

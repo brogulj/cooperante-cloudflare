@@ -61,16 +61,13 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
               )}
               {Array.isArray(logos) && logos.length > 0 && (
                 <div className="mt-8">
-                  <div className="grid grid-cols-2 sm:grid-cols-4 items-center">
+                  <div className="flex flex-row gap-4 h-[100px]">
                     {logos.map(({ logo }, i) => (
                       <div key={i} className="flex justify-center sm:justify-start">
                         {logo && typeof logo === 'object' && (
-                          <Media
-                            resource={logo}
-                            htmlElement={null}
-                            imgClassName={cn('h-20 w-auto object-contain', i > 3 && 'md:hidden')}
-                            pictureClassName=""
-                            loading="lazy"
+                          <img
+                            src={(logo as MediaType).url}
+                            className={cn('h-20 w-auto object-contain', i > 3 && 'md:hidden')}
                           />
                         )}
                       </div>
@@ -82,8 +79,8 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
           ) : null}
         </div>
       </div>
-      <div className="min-h-[80vh] select-none">
-        {bg && <Media fill imgClassName="-z-10 object-cover" priority resource={bg} />}
+      <div className="min-h-[80vh] select-none inset-0 absolute">
+        {bg && <img src={(bg as MediaType).url} className="-z-10 object-cover h-full w-full" />}
       </div>
     </div>
   )

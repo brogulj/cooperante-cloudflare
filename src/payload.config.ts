@@ -17,6 +17,9 @@ import { seoPlugin } from '@payloadcms/plugin-seo'
 import { Navbar } from './globals/Navbar'
 import { Footer } from './globals/Footer'
 import { JobAds } from './collections/JobAds'
+import { BlogPosts } from './collections/BlogPosts'
+import { defaultLexical } from './fields/defaultLexical'
+import { Categories } from './collections/Categories'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -32,9 +35,9 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Pages, JobAds],
+  collections: [Users, Media, Pages, JobAds, BlogPosts, Categories],
   globals: [Navbar, Footer],
-  editor: lexicalEditor(),
+  editor: defaultLexical,
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
@@ -47,7 +50,7 @@ export default buildConfig({
       collections: { media: true },
     }),
     seoPlugin({
-      collections: ['pages'],
+      collections: ['pages', 'blogPosts'],
       uploadsCollection: 'media',
       generateTitle: ({ doc }) => doc.title,
       generateDescription: ({ doc }) => doc.excerpt,

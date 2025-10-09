@@ -83,6 +83,7 @@ export const LanderHero: Block = {
                 en: 'Label',
                 hr: 'Label',
               },
+              localized: true,
             },
           ],
         },

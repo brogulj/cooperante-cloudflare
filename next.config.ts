@@ -14,6 +14,11 @@ const nextConfig = {
         port: '3000',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cooperante-cloudflare.roguljbruno.workers.dev',
+        pathname: '/**',
+      },
     ],
   },
   webpack: (webpackConfig: any) => {
