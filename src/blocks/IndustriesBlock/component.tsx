@@ -44,7 +44,7 @@ export const IndustriesBlock: React.FC<IndustriesBlockProps> = (props) => {
           type="single"
           collapsible
           className="hidden lg:block flex-1"
-          defaultValue={industriesFirstHalf?.[0].title + '0'}
+          defaultValue={industriesFirstHalf?.[0]?.title + '0'}
         >
           {industriesFirstHalf?.map((industry, index) => (
             <AccordionItem key={industry.id} value={industry.title + index.toString()}>
@@ -70,7 +70,7 @@ export const IndustriesBlock: React.FC<IndustriesBlockProps> = (props) => {
           type="single"
           collapsible
           className="hidden lg:block flex-1"
-          defaultValue={industriesSecondHalf?.[0].title + '0'}
+          defaultValue={industriesSecondHalf?.[0]?.title + '0'}
         >
           {industriesSecondHalf?.map((industry, index) => (
             <AccordionItem key={industry.id} value={industry.title + index.toString()}>

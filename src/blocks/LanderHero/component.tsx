@@ -22,7 +22,7 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
 
   return (
     <div
-      className="relative flex items-end sm:items-center md:items-end justify-end text-white"
+      className="relative flex items-end sm:items-center md:items-end justify-end text-white min-h-[80vh]"
       data-theme="dark"
     >
       <div className="container mb-12 sm:mb-10 z-10 relative pt-24 dark">
