@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import React from 'react'
@@ -61,7 +62,7 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
               )}
               {Array.isArray(logos) && logos.length > 0 && (
                 <div className="mt-8">
-                  <div className="flex flex-row gap-4 h-[100px]">
+                  <div className="flex flex-row gap-4 h-[100px] lg:justify-end">
                     {logos.map(({ logo }, i) => (
                       <div key={i} className="flex justify-center sm:justify-start">
                         {logo && typeof logo === 'object' && (
@@ -80,7 +81,15 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
         </div>
       </div>
       <div className="min-h-[80vh] select-none inset-0 absolute">
-        {bg && <img src={(bg as MediaType).url} className="-z-10 object-cover h-full w-full" />}
+        {bg && (
+          <img
+            src={(bg as MediaType).url}
+            className="-z-10 object-cover h-full w-full"
+            fetchPriority="high"
+            alt={(bg as MediaType).alt}
+            loading="eager"
+          />
+        )}
       </div>
     </div>
   )
