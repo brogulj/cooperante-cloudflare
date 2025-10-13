@@ -14,6 +14,7 @@ import {
 
 import type { MediaBlock as MediaBlockProps } from '@/payload-types'
 import { cn } from '@/utilities/ui'
+import { FormBlock } from '@/blocks/Form/component'
 
 type NodeTypes = DefaultNodeTypes | SerializedBlockNode<MediaBlockProps>
 
@@ -61,6 +62,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
         disableInnerContainer={true}
       />
     ),
+    FormBlock: ({ node }: { node: any }) => <FormBlock {...node.fields} />,
   },
 })
 

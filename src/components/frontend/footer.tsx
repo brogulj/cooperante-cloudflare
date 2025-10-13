@@ -31,9 +31,6 @@ export const Footer = ({ footer }: { footer: FooterType }) => {
               {footer.logo && (
                 <img src={(footer.logo as Media)?.url || ''} className="h-8 w-auto" alt="Logo" />
               )}
-              <span className="text-sm text-muted-foreground">
-                {footer.copyright || `© ${new Date().getFullYear()}`}
-              </span>
             </div>
           </div>
 
@@ -98,7 +95,12 @@ export const Footer = ({ footer }: { footer: FooterType }) => {
         <Separator />
 
         <div className="py-8 flex items-center justify-between gap-x-2 gap-y-5 px-4 sm:px-6 xl:px-2">
-          <span className="text-sm text-muted-foreground">{`© ${new Date().getFullYear()}`}</span>
+          <span className="text-sm text-muted-foreground">
+            {`© ${new Date().getFullYear()}`}
+            <span className="text-sm text-muted-foreground">
+              {footer.copyright || `© ${new Date().getFullYear()}`}
+            </span>
+          </span>
           <div className="flex items-center gap-5 text-muted-foreground">
             {(() => {
               const s = footer.socialLinks as FooterType['socialLinks'] | undefined

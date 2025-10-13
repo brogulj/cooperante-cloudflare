@@ -11,6 +11,7 @@ import { ProcessBlock } from '@/blocks/ProcessBlock/component'
 import { TableBlock } from '@/blocks/TableBlock/component'
 import { BenefitsBlock } from '@/blocks/BenefitsBlock/component'
 import { CTABlock } from '@/blocks/CTABlock/component'
+import { FormBlock } from '@/blocks/Form/component'
 import { Page } from '@/payload-types'
 import React from 'react'
 
@@ -32,6 +33,10 @@ type BlockComponentMap = {
   TableBlock: React.ComponentType<Extract<Block, { blockType: 'TableBlock' }>>
   BenefitsBlock: React.ComponentType<Extract<Block, { blockType: 'BenefitsBlock' }>>
   CTABlock: React.ComponentType<Extract<Block, { blockType: 'CTABlock' }>>
+  // The `FormBlock` component expects a populated form object; relax typing to avoid mismatch
+  // between generated `Page['content']` block type (which may be number | Form) and component props.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  FormBlock: React.ComponentType<any>
 }
 
 const blockComponents: BlockComponentMap = {
@@ -48,6 +53,7 @@ const blockComponents: BlockComponentMap = {
   TableBlock: TableBlock,
   BenefitsBlock: BenefitsBlock,
   CTABlock: CTABlock,
+  FormBlock: FormBlock,
 }
 
 export const RenderBlocks: React.FC<{ blocks?: Page['content'] }> = ({ blocks }) => {
@@ -108,6 +114,12 @@ export const RenderBlocks: React.FC<{ blocks?: Page['content'] }> = ({ blocks })
             )
           case 'CTABlock':
             return <blockComponents.CTABlock key={block.id ?? `CTABlock-${i}`} {...block} />
+          case 'FormBlock':
+            return (
+              <div className="py-12">
+                <blockComponents.FormBlock key={block.id ?? `FormBlock-${i}`} {...block} />
+              </div>
+            )
           default:
             return null
         }

@@ -2,6 +2,8 @@
 import { sqliteD1Adapter } from '@payloadcms/db-d1-sqlite'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { resendAdapter } from '@payloadcms/email-resend'
+import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -20,6 +22,7 @@ import { JobAds } from './collections/JobAds'
 import { BlogPosts } from './collections/BlogPosts'
 import { defaultLexical } from './fields/defaultLexical'
 import { Categories } from './collections/Categories'
+import { testEmail } from './testEmail'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -43,6 +46,11 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: sqliteD1Adapter({ binding: cloudflare.env.D1 }),
+  email: resendAdapter({
+    apiKey: 're_PUgFTsWf_4E2PcB7vSBuSgvoGud4zRnEt',
+    defaultFromAddress: 'noreply@brick.com.hr',
+    defaultFromName: 'Brick Software',
+  }),
   plugins: [
     payloadCloudPlugin(),
     r2Storage({
@@ -54,6 +62,28 @@ export default buildConfig({
       uploadsCollection: 'media',
       generateTitle: ({ doc }) => doc.title,
       generateDescription: ({ doc }) => doc.excerpt,
+    }),
+    formBuilderPlugin({
+      fields: {
+        text: true,
+        textarea: true,
+        select: true,
+        radio: true,
+        email: true,
+        state: true,
+        country: true,
+        checkbox: true,
+        number: true,
+        message: true,
+        date: false,
+        payment: false,
+      },
+      redirectRelationships: ['pages', 'blogPosts'],
+      defaultToEmail: 'roguljbruno@gmail.com',
+      beforeEmail: (c) => {
+        console.log(c)
+        return c
+      },
     }),
   ],
   localization: {

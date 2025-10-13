@@ -66,9 +66,10 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
                     {logos.map(({ logo }, i) => (
                       <div key={i} className="flex justify-center sm:justify-start">
                         {logo && typeof logo === 'object' && (
-                          <Media
-                            resource={logo}
-                            imgClassName={cn('h-20 w-auto object-contain', i > 3 && 'md:hidden')}
+                          <img
+                            src={(logo as MediaType).url}
+                            alt={(logo as MediaType).alt}
+                            className={cn('h-20 w-auto object-contain', i > 3 && 'md:hidden')}
                           />
                         )}
                       </div>

@@ -23,7 +23,7 @@ export const JobBoardBlock: React.FC<JobBoardBlockProps> = (params) => {
   }, [locale])
 
   return (
-    <section className="container">
+    <section className="container py-12">
       <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-12 gap-x-8">
         <div className="col-span-4 lg:col-span-12 max-w-4xl">
           {subtitle && <h3 className="text-lg font-medium mb-2">{subtitle}</h3>}
@@ -66,7 +66,7 @@ export const JobBoardBlock: React.FC<JobBoardBlockProps> = (params) => {
                         )}
                       </h3>
                       <span className="text-xs rounded px-2 py-1 bg-secondary text-secondary-foreground shrink-0">
-                        {t(`employmentType.${job.employmentType}`)}
+                        {t(`employmentTypeOptions.${job.employmentType}`)}
                       </span>
                     </div>
                     <div className="text-sm text-muted-foreground">
@@ -74,7 +74,8 @@ export const JobBoardBlock: React.FC<JobBoardBlockProps> = (params) => {
                     </div>
                     <p className="text-sm line-clamp-3">{job.shortDescription}</p>
                     <div className="mt-2 text-sm">
-                      <span className="font-medium">{t('openings')}:</span> {job.numberOfOpenings}
+                      <span className="font-medium">{t('numberOfOpenings')}:</span>{' '}
+                      {job.numberOfOpenings}
                     </div>
                     {href && (
                       <div className="mt-3 flex justify-end">
