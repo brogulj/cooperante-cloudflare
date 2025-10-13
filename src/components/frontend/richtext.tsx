@@ -49,6 +49,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
   },
   paragraph: ({ node, nodesToJSX }) => {
     const childrenJSX = nodesToJSX({ nodes: node.children })
+
     return <p className="text-lg mb-4">{childrenJSX}</p>
   },
   blocks: {
