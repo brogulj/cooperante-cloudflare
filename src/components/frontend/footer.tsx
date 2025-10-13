@@ -9,6 +9,9 @@ import {
   InstagramIcon,
   LinkedinIcon,
   LinkIcon,
+  MailIcon,
+  MapPinIcon,
+  PhoneIcon,
   TextIcon,
   TwitterIcon,
   YoutubeIcon,
@@ -25,12 +28,75 @@ export const Footer = ({ footer }: { footer: FooterType }) => {
   return (
     <footer className="border-t">
       <div className="max-w-screen-2xl mx-auto">
-        <div className="py-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-x-8 gap-y-10 px-4 sm:px-6 xl:px-0">
-          <div className="col-span-full xl:col-span-2">
+        <div className="py-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-10 px-4 sm:px-6 ">
+          <div className="col-span-full xl:col-span-2 flex flex-col gap-4">
             <div className="flex items-center gap-3">
               {footer.logo && (
                 <img src={(footer.logo as Media)?.url || ''} className="h-8 w-auto" alt="Logo" />
               )}
+            </div>
+            <div className="flex flex-col gap-2 underline">
+              {footer.contactInfo.phones?.map((phone) => (
+                <div key={phone.id}>
+                  <a href={phone.phone?.phoneLink} className="flex items-center gap-2">
+                    {' '}
+                    <PhoneIcon className="h-4 w-4" /> {phone.phone?.phoneText}
+                  </a>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col gap-2 underline">
+              {footer.contactInfo.emails?.map((email) => (
+                <div key={email.id}>
+                  <a href={email.email?.emailLink} className="flex items-center gap-2">
+                    {' '}
+                    <MailIcon className="h-4 w-4" /> {email.email?.emailText}
+                  </a>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col gap-2 underline">
+              {footer.contactInfo.addresses?.map((address) => (
+                <div key={address.id}>
+                  <a href={address.address?.addressLink} className="flex items-center gap-2">
+                    {' '}
+                    <MapPinIcon className="h-4 w-4" /> {address.address?.addressText}
+                  </a>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-5 text-muted-foreground">
+              {(() => {
+                const s = footer.socialLinks as FooterType['socialLinks'] | undefined
+                const socials = [
+                  { key: 'twitter', href: s?.twitter, Icon: TwitterIcon, label: 'Twitter' },
+                  { key: 'instagram', href: s?.instagram, Icon: InstagramIcon, label: 'Instagram' },
+                  { key: 'facebook', href: s?.facebook, Icon: FacebookIcon, label: 'Facebook' },
+                  { key: 'linkedin', href: s?.linkedin, Icon: LinkedinIcon, label: 'LinkedIn' },
+                  { key: 'youtube', href: s?.youtube, Icon: YoutubeIcon, label: 'YouTube' },
+                  { key: 'tiktok', href: s?.tiktok, Icon: LinkIcon, label: 'TikTok' },
+                  { key: 'whatsapp', href: s?.whatsapp, Icon: TextIcon, label: 'WhatsApp' },
+                  { key: 'telegram', href: s?.telegram, Icon: LinkIcon, label: 'Telegram' },
+                ].filter((x) => Boolean(x.href)) as Array<{
+                  key: string
+                  href: string
+                  Icon: React.ComponentType<{ className?: string }>
+                  label: string
+                }>
+
+                return socials.map(({ key, href, Icon, label }) => (
+                  <Link
+                    key={key}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                  >
+                    <Icon className="h-5 w-5" />
+                  </Link>
+                ))
+              })()}
             </div>
           </div>
 
@@ -101,38 +167,6 @@ export const Footer = ({ footer }: { footer: FooterType }) => {
               {footer.copyright || `© ${new Date().getFullYear()}`}
             </span>
           </span>
-          <div className="flex items-center gap-5 text-muted-foreground">
-            {(() => {
-              const s = footer.socialLinks as FooterType['socialLinks'] | undefined
-              const socials = [
-                { key: 'twitter', href: s?.twitter, Icon: TwitterIcon, label: 'Twitter' },
-                { key: 'instagram', href: s?.instagram, Icon: InstagramIcon, label: 'Instagram' },
-                { key: 'facebook', href: s?.facebook, Icon: FacebookIcon, label: 'Facebook' },
-                { key: 'linkedin', href: s?.linkedin, Icon: LinkedinIcon, label: 'LinkedIn' },
-                { key: 'youtube', href: s?.youtube, Icon: YoutubeIcon, label: 'YouTube' },
-                { key: 'tiktok', href: s?.tiktok, Icon: LinkIcon, label: 'TikTok' },
-                { key: 'whatsapp', href: s?.whatsapp, Icon: TextIcon, label: 'WhatsApp' },
-                { key: 'telegram', href: s?.telegram, Icon: LinkIcon, label: 'Telegram' },
-              ].filter((x) => Boolean(x.href)) as Array<{
-                key: string
-                href: string
-                Icon: React.ComponentType<{ className?: string }>
-                label: string
-              }>
-
-              return socials.map(({ key, href, Icon, label }) => (
-                <Link
-                  key={key}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                >
-                  <Icon className="h-5 w-5" />
-                </Link>
-              ))
-            })()}
-          </div>
         </div>
       </div>
     </footer>

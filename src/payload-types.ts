@@ -1682,6 +1682,35 @@ export interface Footer {
     whatsapp?: string | null;
     telegram?: string | null;
   };
+  contactInfo?: {
+    addresses?:
+      | {
+          address?: {
+            addressText?: string | null;
+            addressLink?: string | null;
+          };
+          id?: string | null;
+        }[]
+      | null;
+    phones?:
+      | {
+          phone?: {
+            phoneText?: string | null;
+            phoneLink?: string | null;
+          };
+          id?: string | null;
+        }[]
+      | null;
+    emails?:
+      | {
+          email?: {
+            emailText?: string | null;
+            emailLink?: string | null;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1793,6 +1822,43 @@ export interface FooterSelect<T extends boolean = true> {
         tiktok?: T;
         whatsapp?: T;
         telegram?: T;
+      };
+  contactInfo?:
+    | T
+    | {
+        addresses?:
+          | T
+          | {
+              address?:
+                | T
+                | {
+                    addressText?: T;
+                    addressLink?: T;
+                  };
+              id?: T;
+            };
+        phones?:
+          | T
+          | {
+              phone?:
+                | T
+                | {
+                    phoneText?: T;
+                    phoneLink?: T;
+                  };
+              id?: T;
+            };
+        emails?:
+          | T
+          | {
+              email?:
+                | T
+                | {
+                    emailText?: T;
+                    emailLink?: T;
+                  };
+              id?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

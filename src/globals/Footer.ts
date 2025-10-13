@@ -127,5 +127,90 @@ export const Footer: GlobalConfig = {
         },
       ],
     },
+    {
+      name: 'contactInfo',
+      type: 'group',
+      label: {
+        en: 'Contact Info',
+        hr: 'Kontakt informacije',
+      },
+      fields: [
+        {
+          name: 'addresses',
+          type: 'array',
+          label: 'Addresses',
+          fields: [
+            {
+              name: 'address',
+              type: 'group',
+              label: 'Address',
+              fields: [
+                {
+                  name: 'addressText',
+                  type: 'text',
+                  label: 'Address',
+                  localized: true,
+                },
+                {
+                  name: 'addressLink',
+                  type: 'text',
+                  label: 'Address Link',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'phones',
+          type: 'array',
+          label: 'Phones',
+          fields: [
+            {
+              name: 'phone',
+              type: 'group',
+              label: 'Phone',
+              fields: [
+                {
+                  name: 'phoneText',
+                  type: 'text',
+                  label: 'Phone Text',
+                  localized: true,
+                },
+                {
+                  name: 'phoneLink',
+                  type: 'text',
+                  label: 'Phone Link',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'emails',
+          type: 'array',
+          label: 'Emails',
+          fields: [
+            {
+              name: 'email',
+              type: 'group',
+              label: 'Email',
+              fields: [
+                {
+                  name: 'emailText',
+                  type: 'text',
+                  label: 'Email Text',
+                  localized: true,
+                },
+                {
+                  name: 'emailLink',
+                  type: 'text',
+                  label: 'Email Link',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   ],
 }

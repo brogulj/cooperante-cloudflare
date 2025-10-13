@@ -47,7 +47,7 @@ export default buildConfig({
   },
   db: sqliteD1Adapter({ binding: cloudflare.env.D1 }),
   email: resendAdapter({
-    apiKey: 're_PUgFTsWf_4E2PcB7vSBuSgvoGud4zRnEt',
+    apiKey: process.env.RESEND_API_KEY,
     defaultFromAddress: 'noreply@brick.com.hr',
     defaultFromName: 'Brick Software',
   }),
