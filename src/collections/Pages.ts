@@ -10,6 +10,11 @@ import { IndustriesBlock } from '@/blocks/IndustriesBlock/config'
 import { TestimonialsBlock } from '@/blocks/TestimonialsBlock/config'
 import { WorkersTestimonialsBlock } from '@/blocks/WorkersTestimonialsBlock/config'
 import { FAQBlock } from '@/blocks/FAQBlock/config'
+import { WhyChooseUsBlock } from '@/blocks/WhyChooseUsBlock/config'
+import { ProcessBlock } from '@/blocks/ProcessBlock/config'
+import { TableBlock } from '@/blocks/TableBlock/config'
+import { BenefitsBlock } from '@/blocks/BenefitsBlock/config'
+import { CTABlock } from '@/blocks/CTABlock/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -59,6 +64,11 @@ export const Pages: CollectionConfig<'pages'> = {
         TestimonialsBlock,
         WorkersTestimonialsBlock,
         FAQBlock,
+        WhyChooseUsBlock,
+        ProcessBlock,
+        TableBlock,
+        BenefitsBlock,
+        CTABlock,
       ],
     },
   ],

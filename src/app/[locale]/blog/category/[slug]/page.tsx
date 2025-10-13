@@ -15,6 +15,8 @@ import {
 } from '@/components/ui/pagination'
 import { Badge } from '@/components/ui/badge'
 import { Media as MediaType } from '@/payload-types'
+import { LinkBase } from '@/components/ui/locale-link'
+import getT from '@/app/i18n'
 
 type SearchParams = Promise<{ page?: string }>
 
@@ -31,6 +33,8 @@ export default async function CategoryPage({
   const page = Math.max(1, Number(pageParam) || 1)
   const limit = 10
 
+  const { t } = await getT('common')
+
   const payload = await getPayload({ config: configPromise })
 
   const category = (
@@ -45,7 +49,7 @@ export default async function CategoryPage({
   if (!category) {
     return (
       <div className="max-w-none lg:max-w-4xl xl:max-w-5xl mx-auto px-4 py-12">
-        Category not found.
+        {t('categoryNotFound')}
       </div>
     )
   }
@@ -90,21 +94,25 @@ export default async function CategoryPage({
   return (
     <div className="max-w-none lg:max-w-4xl xl:max-w-5xl mx-auto px-4 py-12">
       <div className="mb-6">
-        <Link href={`/${locale}/blog`} className="text-sm text-muted-foreground hover:underline">
-          ← Back to Blog
-        </Link>
+        <LinkBase
+          lng={locale}
+          href={`/blog`}
+          className="text-sm text-muted-foreground hover:underline"
+        >
+          ← {t('backToBlog')}
+        </LinkBase>
       </div>
       <h1 className="text-3xl font-bold mb-2 lg:text-4xl">{category.name}</h1>
-      <p className="text-muted-foreground mb-8">Posts in this category</p>
+      <p className="text-muted-foreground mb-8">{t('postsInThisCategory')}</p>
 
       {posts.length === 0 ? (
-        <p>No posts found.</p>
+        <p>{t('noPostsFound')}</p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
             <Card key={post.id}>
               <div className="px-6">
-                <Link href={`/${locale}/blog/${post.slug}`} className="block">
+                <LinkBase lng={locale} href={`/blog/${post.slug}`} className="block">
                   <div className="relative aspect-[16/9] overflow-hidden rounded-md border bg-muted">
                     {post.headerImage ? (
                       <img
@@ -113,24 +121,24 @@ export default async function CategoryPage({
                       />
                     ) : null}
                   </div>
-                </Link>
+                </LinkBase>
               </div>
               <CardContent className="pt-2">
                 {Array.isArray((post as any).categories) && (post as any).categories.length > 0 && (
                   <div className="mb-2 flex flex-wrap gap-2">
                     {(post as any).categories.map((c: any, idx: number) => (
-                      <Link href={`/${locale}/blog/category/${c.slug}`} key={c?.id ?? idx}>
+                      <LinkBase lng={locale} href={`/blog/category/${c.slug}`} key={c?.id ?? idx}>
                         <Badge key={c?.id ?? idx} variant="secondary">
                           {typeof c === 'object' && c?.name ? c.name : ''}
                         </Badge>
-                      </Link>
+                      </LinkBase>
                     ))}
                   </div>
                 )}
                 <CardTitle className="text-lg leading-snug">
-                  <Link href={`/${locale}/blog/${post.slug}`} className="hover:underline">
+                  <LinkBase lng={locale} href={`/blog/${post.slug}`} className="hover:underline">
                     {post.title}
-                  </Link>
+                  </LinkBase>
                 </CardTitle>
                 {post.publishedAt && (
                   <p className="text-sm text-muted-foreground mt-1">
@@ -149,7 +157,8 @@ export default async function CategoryPage({
             {currentPage > 1 && (
               <PaginationItem>
                 <PaginationPrevious
-                  href={`/${locale}/blog/category/${slug}?page=${currentPage - 1}`}
+                  lng={locale}
+                  href={`/blog/category/${slug}?page=${currentPage - 1}`}
                 />
               </PaginationItem>
             )}
@@ -159,7 +168,8 @@ export default async function CategoryPage({
                   <PaginationEllipsis />
                 ) : (
                   <PaginationLink
-                    href={`/${locale}/blog/category/${slug}?page=${item}`}
+                    lng={locale}
+                    href={`/blog/category/${slug}?page=${item}`}
                     isActive={item === currentPage}
                   >
                     {item}
@@ -169,7 +179,10 @@ export default async function CategoryPage({
             ))}
             {currentPage < totalPages && (
               <PaginationItem>
-                <PaginationNext href={`/${locale}/blog/category/${slug}?page=${currentPage + 1}`} />
+                <PaginationNext
+                  lng={locale}
+                  href={`/blog/category/${slug}?page=${currentPage + 1}`}
+                />
               </PaginationItem>
             )}
           </PaginationContent>

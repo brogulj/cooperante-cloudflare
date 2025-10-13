@@ -1,1 +1,28 @@
-{}
+{
+  "employmentType": "Vrsta zaposlenja",
+  "employmentTypeOptions": {
+    "full_time": "Za Stalno",
+    "seasonal": "Sezonski",
+    "temporary": "Privremeni"
+  },
+  "numberOfOpenings": "Broj otvorenih pozicija",
+  "shortDescription": "Kratak opis",
+  "description": "Opis",
+  "benefits": "Benefiti",
+  "location": "Lokacija",
+  "backToJobAds": "Nazad na oglase",
+  "backToBlog": "Nazad na blog",
+  "industry": "Industrija",
+  "viewDetails": "Pogledaj detalje",
+  "blog": "Blog",
+  "noPostsFound": "Nema blog postova",
+  "noJobAdsFound": "Nema oglasa",
+  "blogPostNotFound": "Blog post nije pronađen",
+  "categoryNotFound": "Kategorija nije pronađena",
+  "postsInThisCategory": "Blog postovi u ovoj kategoriji",
+  "categories": "Kategorije",
+  "content": "Sadržaj",
+  "previous": "Prethodna",
+  "next": "Sljedeća",
+  "jobAds": "Oglasi za Posao"
+}

@@ -54,7 +54,7 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
                         <p className="text-3xl font-semibold lg:text-3xl xl:text-4xl">
                           {stat?.value}
                         </p>
-                        <p className="text-lg xl:text-xl">{stat?.label}</p>
+                        <p className="text-lg xl:text-xl text-center">{stat?.label}</p>
                       </li>
                     )
                   })}
@@ -66,9 +66,9 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
                     {logos.map(({ logo }, i) => (
                       <div key={i} className="flex justify-center sm:justify-start">
                         {logo && typeof logo === 'object' && (
-                          <img
-                            src={(logo as MediaType).url}
-                            className={cn('h-20 w-auto object-contain', i > 3 && 'md:hidden')}
+                          <Media
+                            resource={logo}
+                            imgClassName={cn('h-20 w-auto object-contain', i > 3 && 'md:hidden')}
                           />
                         )}
                       </div>

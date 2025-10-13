@@ -188,6 +188,11 @@ export interface Page {
         | TestimonialsBlock
         | WorkersTestimonialsBlock
         | FAQBlock
+        | WhyChooseUsBlock
+        | ProcessBlock
+        | TableBlock
+        | BenefitsBlock
+        | CTABlock
       )[]
     | null;
   meta?: {
@@ -413,6 +418,110 @@ export interface FAQBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WhyChooseUsBlock".
+ */
+export interface WhyChooseUsBlock {
+  dark?: boolean | null;
+  title?: string | null;
+  reasons?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'WhyChooseUsBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProcessBlock".
+ */
+export interface ProcessBlock {
+  dark: boolean;
+  title: string;
+  steps?:
+    | {
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'ProcessBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TableBlock".
+ */
+export interface TableBlock {
+  dark: boolean;
+  title: string;
+  columns: {
+    label: string;
+    id?: string | null;
+  }[];
+  rows: {
+    cells: {
+      value: string;
+      id?: string | null;
+    }[];
+    icon?: string | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'TableBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BenefitsBlock".
+ */
+export interface BenefitsBlock {
+  dark?: boolean | null;
+  title?: string | null;
+  items: {
+    text: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'BenefitsBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CTABlock".
+ */
+export interface CTABlock {
+  dark?: boolean | null;
+  title: string;
+  subtitle?: string | null;
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'CTABlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "jobAds".
  */
 export interface JobAd {
@@ -424,8 +533,10 @@ export interface JobAd {
   employmentType: 'full_time' | 'seasonal' | 'temporary';
   industry: string;
   numberOfOpenings: number;
+  description?: string | null;
   shortDescription: string;
   benefits: string;
+  status?: ('active' | 'inactive') | null;
   translated?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -613,6 +724,11 @@ export interface PagesSelect<T extends boolean = true> {
         TestimonialsBlock?: T | TestimonialsBlockSelect<T>;
         WorkersTestimonialsBlock?: T | WorkersTestimonialsBlockSelect<T>;
         FAQBlock?: T | FAQBlockSelect<T>;
+        WhyChooseUsBlock?: T | WhyChooseUsBlockSelect<T>;
+        ProcessBlock?: T | ProcessBlockSelect<T>;
+        TableBlock?: T | TableBlockSelect<T>;
+        BenefitsBlock?: T | BenefitsBlockSelect<T>;
+        CTABlock?: T | CTABlockSelect<T>;
       };
   meta?:
     | T
@@ -824,6 +940,109 @@ export interface FAQBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WhyChooseUsBlock_select".
+ */
+export interface WhyChooseUsBlockSelect<T extends boolean = true> {
+  dark?: T;
+  title?: T;
+  reasons?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProcessBlock_select".
+ */
+export interface ProcessBlockSelect<T extends boolean = true> {
+  dark?: T;
+  title?: T;
+  steps?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TableBlock_select".
+ */
+export interface TableBlockSelect<T extends boolean = true> {
+  dark?: T;
+  title?: T;
+  columns?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  rows?:
+    | T
+    | {
+        cells?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        icon?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BenefitsBlock_select".
+ */
+export interface BenefitsBlockSelect<T extends boolean = true> {
+  dark?: T;
+  title?: T;
+  items?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CTABlock_select".
+ */
+export interface CTABlockSelect<T extends boolean = true> {
+  dark?: T;
+  title?: T;
+  subtitle?: T;
+  links?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "jobAds_select".
  */
 export interface JobAdsSelect<T extends boolean = true> {
@@ -834,8 +1053,10 @@ export interface JobAdsSelect<T extends boolean = true> {
   employmentType?: T;
   industry?: T;
   numberOfOpenings?: T;
+  description?: T;
   shortDescription?: T;
   benefits?: T;
+  status?: T;
   translated?: T;
   updatedAt?: T;
   createdAt?: T;

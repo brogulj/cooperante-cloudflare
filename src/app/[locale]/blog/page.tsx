@@ -1,8 +1,7 @@
-import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import { AppLocale } from '@/app/i18n/settings'
-import { Media } from '@/components/frontend/Media'
+
 import { Media as MediaType } from '@/payload-types'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import {
@@ -15,6 +14,10 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination'
 import { Badge } from '@/components/ui/badge'
+import { LinkBase } from '@/components/ui/locale-link'
+import getT from '@/app/i18n'
+import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 type SearchParams = Promise<{ page?: string }>
 
@@ -27,6 +30,7 @@ export default async function BlogArchivePage({
 }) {
   const { locale } = await params
   const { page: pageParam } = await searchParams
+  const { t } = await getT('common')
 
   const page = Math.max(1, Number(pageParam) || 1)
   const limit = 9
@@ -72,16 +76,16 @@ export default async function BlogArchivePage({
 
   return (
     <div className="max-w-none lg:max-w-4xl xl:max-w-5xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-8 lg:text-4xl">Blog</h1>
+      <h1 className="text-3xl font-bold mb-8 lg:text-4xl">{t('blog')}</h1>
 
       {posts.length === 0 ? (
-        <p>No posts found.</p>
+        <p>{t('noPostsFound')}</p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
             <Card key={post.id}>
               <div className="px-6">
-                <Link href={`/${locale}/blog/${post.slug}`} className="block">
+                <LinkBase lng={locale} href={`/blog/${post.slug}`} className="block">
                   <div className="relative aspect-[16/9] overflow-hidden rounded-md border bg-muted">
                     {post.headerImage ? (
                       <img
@@ -90,30 +94,40 @@ export default async function BlogArchivePage({
                       />
                     ) : null}
                   </div>
-                </Link>
+                </LinkBase>
               </div>
-              <CardContent className="pt-2">
+              <CardContent className="pt-2 flex flex-col items-start">
                 {Array.isArray((post as any).categories) && (post as any).categories.length > 0 && (
                   <div className="mb-2 flex flex-wrap gap-2">
                     {(post as any).categories.map((c: any, idx: number) => (
-                      <Link href={`/${locale}/blog/category/${c.slug}`} key={c?.id ?? idx}>
+                      <LinkBase lng={locale} href={`/blog/category/${c.slug}`} key={c?.id ?? idx}>
                         <Badge key={c?.id ?? idx} variant="secondary">
                           {typeof c === 'object' && c?.name ? c.name : ''}
                         </Badge>
-                      </Link>
+                      </LinkBase>
                     ))}
                   </div>
                 )}
                 <CardTitle className="text-lg leading-snug">
-                  <Link href={`/${locale}/blog/${post.slug}`} className="hover:underline">
+                  <LinkBase lng={locale} href={`/blog/${post.slug}`} className="hover:underline">
                     {post.title}
-                  </Link>
+                  </LinkBase>
                 </CardTitle>
                 {post.publishedAt && (
                   <p className="text-sm text-muted-foreground mt-1">
                     {new Date(post.publishedAt).toLocaleDateString().replaceAll('/', '. ')}.
                   </p>
                 )}
+                <LinkBase
+                  lng={locale}
+                  href={`/blog/${post.slug}`}
+                  className={cn(
+                    buttonVariants(),
+                    'mt-4 hover:cursor-pointer w-full lg:w-auto lg:self-end',
+                  )}
+                >
+                  {t('viewDetails')}
+                </LinkBase>
               </CardContent>
             </Card>
           ))}
@@ -125,7 +139,7 @@ export default async function BlogArchivePage({
           <PaginationContent>
             {currentPage > 1 && (
               <PaginationItem>
-                <PaginationPrevious href={`/${locale}/blog?page=${currentPage - 1}`} />
+                <PaginationPrevious lng={locale} href={`/blog?page=${currentPage - 1}`} />
               </PaginationItem>
             )}
             {pageItems.map((item, idx) => (
@@ -134,7 +148,8 @@ export default async function BlogArchivePage({
                   <PaginationEllipsis />
                 ) : (
                   <PaginationLink
-                    href={`/${locale}/blog?page=${item}`}
+                    lng={locale}
+                    href={`/blog?page=${item}`}
                     isActive={item === currentPage}
                   >
                     {item}
@@ -144,7 +159,7 @@ export default async function BlogArchivePage({
             ))}
             {currentPage < totalPages && (
               <PaginationItem>
-                <PaginationNext href={`/${locale}/blog?page=${currentPage + 1}`} />
+                <PaginationNext lng={locale} href={`/blog?page=${currentPage + 1}`} />
               </PaginationItem>
             )}
           </PaginationContent>

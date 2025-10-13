@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 import { toKebabCase } from '@/utilities/toKebabCase'
 import { cn } from '@/utilities/ui'
+import { useT } from '@/app/i18n/client'
 
 type HeadingItem = {
   id: string
@@ -77,7 +78,7 @@ function assignUniqueIds(items: Omit<HeadingItem, 'id'>[]): HeadingItem[] {
 
 export default function TableOfContents(props: Props) {
   const { content, containerId = 'article-content', className, minLevel = 2, maxLevel = 4 } = props
-
+  const { t } = useT('common')
   const items = useMemo(
     () => assignUniqueIds(extractHeadings(content, minLevel, maxLevel)),
     [content, minLevel, maxLevel],
@@ -133,7 +134,7 @@ export default function TableOfContents(props: Props) {
       className={cn('text-sm rounded-md border bg-card/50 p-4 shadow-sm', className)}
     >
       <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-3">
-        Sadržaj
+        {t('content')}
       </div>
       <ul className="space-y-1">
         {items.map((item) => (

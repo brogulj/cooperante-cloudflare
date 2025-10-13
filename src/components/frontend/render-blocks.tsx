@@ -6,6 +6,11 @@ import { IndustriesBlock } from '@/blocks/IndustriesBlock/component'
 import { TestimonialsBlock } from '@/blocks/TestimonialsBlock/component'
 import { WorkersTestimonialsBlock } from '@/blocks/WorkersTestimonialsBlock/component'
 import { FAQBlock } from '@/blocks/FAQBlock/component'
+import { WhyChooseUsBlock } from '@/blocks/WhyChooseUsBlock/component'
+import { ProcessBlock } from '@/blocks/ProcessBlock/component'
+import { TableBlock } from '@/blocks/TableBlock/component'
+import { BenefitsBlock } from '@/blocks/BenefitsBlock/component'
+import { CTABlock } from '@/blocks/CTABlock/component'
 import { Page } from '@/payload-types'
 import React from 'react'
 
@@ -22,6 +27,11 @@ type BlockComponentMap = {
     Extract<Block, { blockType: 'WorkersTestimonialsBlock' }>
   >
   FAQBlock: React.ComponentType<Extract<Block, { blockType: 'FAQBlock' }>>
+  WhyChooseUsBlock: React.ComponentType<Extract<Block, { blockType: 'WhyChooseUsBlock' }>>
+  ProcessBlock: React.ComponentType<Extract<Block, { blockType: 'ProcessBlock' }>>
+  TableBlock: React.ComponentType<Extract<Block, { blockType: 'TableBlock' }>>
+  BenefitsBlock: React.ComponentType<Extract<Block, { blockType: 'BenefitsBlock' }>>
+  CTABlock: React.ComponentType<Extract<Block, { blockType: 'CTABlock' }>>
 }
 
 const blockComponents: BlockComponentMap = {
@@ -33,6 +43,11 @@ const blockComponents: BlockComponentMap = {
   TestimonialsBlock: TestimonialsBlock,
   WorkersTestimonialsBlock: WorkersTestimonialsBlock,
   FAQBlock: FAQBlock,
+  WhyChooseUsBlock: WhyChooseUsBlock,
+  ProcessBlock: ProcessBlock,
+  TableBlock: TableBlock,
+  BenefitsBlock: BenefitsBlock,
+  CTABlock: CTABlock,
 }
 
 export const RenderBlocks: React.FC<{ blocks?: Page['content'] }> = ({ blocks }) => {
@@ -76,6 +91,23 @@ export const RenderBlocks: React.FC<{ blocks?: Page['content'] }> = ({ blocks })
             )
           case 'FAQBlock':
             return <blockComponents.FAQBlock key={block.id ?? `FAQBlock-${i}`} {...block} />
+          case 'WhyChooseUsBlock':
+            return (
+              <blockComponents.WhyChooseUsBlock
+                key={block.id ?? `WhyChooseUsBlock-${i}`}
+                {...block}
+              />
+            )
+          case 'ProcessBlock':
+            return <blockComponents.ProcessBlock key={block.id ?? `ProcessBlock-${i}`} {...block} />
+          case 'TableBlock':
+            return <blockComponents.TableBlock key={block.id ?? `TableBlock-${i}`} {...block} />
+          case 'BenefitsBlock':
+            return (
+              <blockComponents.BenefitsBlock key={block.id ?? `BenefitsBlock-${i}`} {...block} />
+            )
+          case 'CTABlock':
+            return <blockComponents.CTABlock key={block.id ?? `CTABlock-${i}`} {...block} />
           default:
             return null
         }

@@ -6,6 +6,7 @@ import TableOfContents from '@/components/frontend/TableOfContents'
 import { Media as MediaType } from '@/payload-types'
 import { Category, User } from '@/payload-types'
 import Link from 'next/link'
+import getT from '@/app/i18n'
 
 export default async function BlogPostPage({
   params,
@@ -13,6 +14,8 @@ export default async function BlogPostPage({
   params: Promise<{ locale: string; slug: string }>
 }) {
   const { locale, slug } = await params
+
+  const { t } = await getT('common')
 
   const payload = await getPayload({ config: configPromise })
 
@@ -25,7 +28,7 @@ export default async function BlogPostPage({
   ).docs[0]
 
   if (!blogPost) {
-    return <div>Blog Post not found</div>
+    return <div>{t('blogPostNotFound')}</div>
   }
 
   return (
@@ -40,7 +43,7 @@ export default async function BlogPostPage({
         <div
           className={`absolute bottom-0 left-0 right-0 px-4 pb-8 justify-end flex flex-col max-w-none lg:max-w-4xl xl:max-w-5xl mx-auto ${blogPost.headerTheme === 'dark' ? 'text-white' : 'text-black'}`}
         >
-          <h1 className="text-3xl font-bold mb-4 lg:text-4xl lg:font-semibold lg:pr-18 xl:text-5xl">
+          <h1 className="text-3xl font-bold mb-4 lg:text-4xl lg:font-semibold lg:pr-18 xl:text-5xl leading-tight">
             {blogPost.title}
           </h1>
           {blogPost.author && (
@@ -54,7 +57,7 @@ export default async function BlogPostPage({
         </div>
       </div>
       <div className=" mt-12 max-w-none lg:max-w-4xl xl:max-w-5xl mx-auto px-4">
-        <p className="text-lg font-semibold mb-2">Kategorije:</p>
+        <p className="text-lg font-semibold mb-2">{t('categories')}:</p>
         {blogPost.categories && (
           <div className=" text-base font-semibold flex flex-wrap gap-2">
             {blogPost.categories.map((c) => {

@@ -110,6 +110,15 @@ export const JobAds: CollectionConfig = {
       min: 1,
     },
     {
+      name: 'description',
+      type: 'textarea',
+      label: {
+        hr: 'Opis',
+        en: 'Description',
+      },
+      localized: true,
+    },
+    {
       name: 'shortDescription',
       type: 'textarea',
       required: true,
@@ -128,6 +137,31 @@ export const JobAds: CollectionConfig = {
         en: 'Benefits / Key Information (work permit, accommodation, salary negotiable)',
       },
       localized: true,
+    },
+    {
+      name: 'status',
+      type: 'select',
+      label: {
+        hr: 'Status',
+        en: 'Status',
+      },
+      options: [
+        {
+          label: {
+            hr: 'Aktivan',
+            en: 'Active',
+          },
+          value: 'active',
+        },
+        {
+          label: {
+            hr: 'Neaktivan',
+            en: 'Inactive',
+          },
+          value: 'inactive',
+        },
+      ],
+      defaultValue: 'inactive',
     },
     {
       name: 'translated',
