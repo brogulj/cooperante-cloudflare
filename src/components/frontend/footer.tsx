@@ -28,7 +28,7 @@ export const Footer = ({ footer }: { footer: FooterType }) => {
   return (
     <footer className="border-t">
       <div className="max-w-screen-2xl mx-auto">
-        <div className="py-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-10 px-4 sm:px-6 ">
+        <div className="py-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-10 px-4 sm:px-6 ">
           <div className="col-span-full xl:col-span-2 flex flex-col gap-4">
             <div className="flex items-center gap-3">
               {footer.logo && (
