@@ -16,6 +16,8 @@ import { TableBlock } from '@/blocks/TableBlock/config'
 import { BenefitsBlock } from '@/blocks/BenefitsBlock/config'
 import { CTABlock } from '@/blocks/CTABlock/config'
 import { FormBlock } from '@/blocks/Form/config'
+import { IndustriesGlobeBlock } from '@/blocks/IndustriesGlobeBlock/config'
+import { BlogPostsBlock } from '@/blocks/BlogPostsBlock/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -71,6 +73,8 @@ export const Pages: CollectionConfig<'pages'> = {
         BenefitsBlock,
         CTABlock,
         FormBlock,
+        IndustriesGlobeBlock,
+        BlogPostsBlock,
       ],
     },
   ],

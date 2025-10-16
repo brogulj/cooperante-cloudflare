@@ -4,6 +4,7 @@
 import React from 'react'
 
 import type { TrustBlock as TrustBlockProps, Media as MediaDoc } from '@/payload-types'
+import RichText from '@/components/frontend/richtext'
 
 export const TrustBlock: React.FC<TrustBlockProps> = (props) => {
   const { title, description, companyLogos } = props
@@ -18,7 +19,7 @@ export const TrustBlock: React.FC<TrustBlockProps> = (props) => {
   const visibleLogos: MediaDoc[] = React.useMemo(() => logos, [logos])
 
   return (
-    <section className="container my-16 mx-auto">
+    <section className="container my-16 lg:my-20 mx-auto">
       <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-6 gap-x-16">
         <div className="col-span-4 lg:col-span-12 max-w-4xl">
           {title && (
@@ -26,9 +27,7 @@ export const TrustBlock: React.FC<TrustBlockProps> = (props) => {
               {title}
             </h2>
           )}
-          {description && (
-            <p className="mt-6 text-muted-foreground text-lg md:text-lg">{description}</p>
-          )}
+          {description && <RichText data={description} className="[&_p]:mt-6 [&_p]:text-lg" />}
         </div>
 
         <div className="col-span-4 lg:col-span-12 space-y-6">

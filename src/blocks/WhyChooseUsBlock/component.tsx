@@ -9,7 +9,7 @@ export const WhyChooseUsBlock: React.FC<WhyChooseUsBlockType> = (block) => {
   return (
     <div
       className={cn(
-        'container py-20 gap-4 flex flex-col max-w-screen xl:px-20 bg-background text-foreground',
+        'container py-16 lg:py-32 gap-4 flex flex-col max-w-screen xl:px-20 bg-background text-foreground',
         dark && 'dark',
       )}
     >

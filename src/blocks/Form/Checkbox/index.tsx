@@ -20,7 +20,7 @@ export const Checkbox: React.FC<
   const { setValue } = useFormContext()
 
   return (
-    <Width width={width}>
+    <>
       <div className="flex items-center gap-2">
         <CheckboxUi
           defaultChecked={defaultValue}
@@ -40,6 +40,6 @@ export const Checkbox: React.FC<
         </Label>
       </div>
       {errors[name] && <Error name={name} />}
-    </Width>
+    </>
   )
 }

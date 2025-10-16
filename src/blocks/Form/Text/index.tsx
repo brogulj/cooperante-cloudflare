@@ -15,7 +15,7 @@ export const Text: React.FC<
   }
 > = ({ name, defaultValue, errors, label, register, required, width }) => {
   return (
-    <Width width={width}>
+    <>
       <Label htmlFor={name}>
         {label}
 
@@ -27,6 +27,6 @@ export const Text: React.FC<
       </Label>
       <Input defaultValue={defaultValue} id={name} type="text" {...register(name, { required })} />
       {errors[name] && <Error name={name} />}
-    </Width>
+    </>
   )
 }

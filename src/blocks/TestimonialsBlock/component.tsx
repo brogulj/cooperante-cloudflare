@@ -8,20 +8,24 @@ export const TestimonialsBlock: React.FC<TestimonialsBlockProps> = (props) => {
   const { title, subtitle, testimonials } = props
 
   return (
-    <div className="container my-16 gap-8 flex flex-col">
+    <div className="container py-16 lg:py-32 gap-8 flex flex-col">
       <div className="max-w-4xl">
-        <h3 className="text-xl font-medium mb-2 leading-relaxed uppercase">{subtitle}</h3>
-        <h2 className="text-5xl font-semibold mb-6">{title}</h2>
+        <h2 className="text-3xl md:text-5xl font-semibold mb-6 lg:text-4xl xl:text-5xl">{title}</h2>
+        <h3 className="text-lg font-medium mb-2 leading-relaxed text-muted-foreground">
+          {subtitle}
+        </h3>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 xl:grid-cols-3">
         {testimonials?.map((testimonial) => (
           <div key={testimonial.id} className="flex flex-col gap-4">
             <div className="grid grid-cols-5 gap-4 lg:gap-6 border border-border rounded-lg px-4 py-4 lg:px-6 lg:py-4">
-              <img
-                src={(testimonial.personImage as Media).url || ''}
-                alt=""
-                className="h-full object-cover rounded-md col-span-2"
-              />
+              <div className="col-span-2 aspect-[3/4] overflow-hidden">
+                <img
+                  src={(testimonial.personImage as Media).url || ''}
+                  alt=""
+                  className="h-full object-cover rounded-md"
+                />
+              </div>
               <div className="flex flex-col items-start col-span-3">
                 <img
                   src={(testimonial.companyLogo as Media).url || ''}

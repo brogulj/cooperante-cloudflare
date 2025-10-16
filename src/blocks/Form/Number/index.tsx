@@ -14,7 +14,7 @@ export const Number: React.FC<
   }
 > = ({ name, defaultValue, errors, label, register, required, width }) => {
   return (
-    <Width width={width}>
+    <>
       <Label htmlFor={name}>
         {label}
 
@@ -31,6 +31,6 @@ export const Number: React.FC<
         {...register(name, { required })}
       />
       {errors[name] && <Error name={name} />}
-    </Width>
+    </>
   )
 }

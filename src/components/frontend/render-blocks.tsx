@@ -12,6 +12,8 @@ import { TableBlock } from '@/blocks/TableBlock/component'
 import { BenefitsBlock } from '@/blocks/BenefitsBlock/component'
 import { CTABlock } from '@/blocks/CTABlock/component'
 import { FormBlock } from '@/blocks/Form/component'
+import { IndustriesGlobeBlock } from '@/blocks/IndustriesGlobeBlock/component'
+import { BlogPostsBlock } from '@/blocks/BlogPostsBlock/component'
 import { Page } from '@/payload-types'
 import React from 'react'
 
@@ -37,6 +39,9 @@ type BlockComponentMap = {
   // between generated `Page['content']` block type (which may be number | Form) and component props.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   FormBlock: React.ComponentType<any>
+  IndustriesGlobeBlock: React.ComponentType<Extract<Block, { blockType: 'IndustriesGlobeBlock' }>>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  BlogPostsBlock: React.ComponentType<any>
 }
 
 const blockComponents: BlockComponentMap = {
@@ -54,6 +59,8 @@ const blockComponents: BlockComponentMap = {
   BenefitsBlock: BenefitsBlock,
   CTABlock: CTABlock,
   FormBlock: FormBlock,
+  IndustriesGlobeBlock: IndustriesGlobeBlock,
+  BlogPostsBlock: BlogPostsBlock,
 }
 
 export const RenderBlocks: React.FC<{ blocks?: Page['content'] }> = ({ blocks }) => {
@@ -119,6 +126,17 @@ export const RenderBlocks: React.FC<{ blocks?: Page['content'] }> = ({ blocks })
               <div className="py-12">
                 <blockComponents.FormBlock key={block.id ?? `FormBlock-${i}`} {...block} />
               </div>
+            )
+          case 'IndustriesGlobeBlock':
+            return (
+              <blockComponents.IndustriesGlobeBlock
+                key={block.id ?? `IndustriesGlobeBlock-${i}`}
+                {...block}
+              />
+            )
+          case 'BlogPostsBlock':
+            return (
+              <blockComponents.BlogPostsBlock key={block.id ?? `BlogPostsBlock-${i}`} {...block} />
             )
           default:
             return null

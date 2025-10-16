@@ -35,10 +35,20 @@ export const BenefitsBlock: Block = {
       required: true,
       fields: [
         {
+          name: 'title',
+          type: 'text',
+          localized: true,
+        },
+        {
           name: 'text',
           type: 'text',
           localized: true,
           required: true,
+        },
+        {
+          name: 'icon',
+          type: 'upload',
+          relationTo: 'media',
         },
       ],
     },

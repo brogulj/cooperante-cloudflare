@@ -15,6 +15,7 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
   const links = Array.isArray(block.links) ? block.links : []
   const stats = Array.isArray(block.stats) ? block.stats : []
   const bg = block.backgroundImage
+  const dark = block.dark
 
   const bgUrl =
     bg && typeof bg === 'object' && (bg as MediaType).url ? getMediaUrl((bg as MediaType).url) : ''
@@ -23,10 +24,12 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
 
   return (
     <div
-      className="relative flex items-end sm:items-center md:items-end justify-end text-white min-h-[80vh]"
-      data-theme="dark"
+      className={cn(
+        'relative flex items-end sm:items-center md:items-end justify-end bg-background text-foreground min-h-[80vh]',
+        dark && 'dark',
+      )}
     >
-      <div className="container mb-12 sm:mb-10 z-10 relative pt-24 dark">
+      <div className="container mb-12 sm:mb-10 z-10 relative pt-24">
         <div className="flex w-full flex-col lg:flex-row gap-10 lg:gap-16">
           <div className="max-w-[36.5rem] md:text-left lg:mb-20 xl:mb-32">
             <h1 className="text-4xl font-semibold mb-4 leading-tight xl:text-5xl">{title}</h1>
@@ -36,7 +39,11 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
                 {links.map(({ link }, i) => {
                   return (
                     <li key={i} className="flex-1 md:flex-none">
-                      <CMSLink {...link} className="w-full md:w-auto" size="lg" />
+                      <CMSLink
+                        {...link}
+                        className="w-full md:w-auto lg:text-[1.15rem] lg:h-11"
+                        size="lg"
+                      />
                     </li>
                   )
                 })}

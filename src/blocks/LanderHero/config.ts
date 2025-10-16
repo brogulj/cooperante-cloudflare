@@ -25,6 +25,11 @@ export const LanderHero: Block = {
       localized: true,
     },
     {
+      name: 'dark',
+      type: 'checkbox',
+      defaultValue: false,
+    },
+    {
       name: 'subtitle',
       label: {
         en: 'Subtitle',

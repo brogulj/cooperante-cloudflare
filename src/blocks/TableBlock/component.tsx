@@ -33,11 +33,11 @@ export const TableBlock: React.FC<TableBlockProps> = (props) => {
         <h2 className="mb-2 text-4xl font-semibold md:text-5xl">{title}</h2>
       </div>
       <div className="rounded-xl border bg-card p-2 shadow-sm max-w-6xl hidden lg:block">
-        <Table className="text-base max-w-screen">
+        <Table className="text-base max-w-screen p-4">
           <TableHeader>
             <TableRow>
               {columns?.map((col) => (
-                <TableHead key={col.id} className="text-base font-semibold italic">
+                <TableHead key={col.id} className="text-base font-semibold italic pb-2">
                   {col.label}
                 </TableHead>
               ))}
@@ -45,7 +45,7 @@ export const TableBlock: React.FC<TableBlockProps> = (props) => {
           </TableHeader>
           <TableBody>
             {rows?.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow key={row.id} className="py-4">
                 {row.cells?.map((cell, index) => (
                   <TableCell
                     key={cell.id}

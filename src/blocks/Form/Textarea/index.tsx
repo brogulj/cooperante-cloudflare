@@ -16,7 +16,7 @@ export const Textarea: React.FC<
   }
 > = ({ name, defaultValue, errors, label, register, required, rows = 3, width }) => {
   return (
-    <Width width={width}>
+    <>
       <Label htmlFor={name}>
         {label}
 
@@ -35,6 +35,6 @@ export const Textarea: React.FC<
       />
 
       {errors[name] && <Error name={name} />}
-    </Width>
+    </>
   )
 }

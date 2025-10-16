@@ -22,7 +22,7 @@ export const Select: React.FC<
   }
 > = ({ name, control, errors, label, options, required, width, defaultValue }) => {
   return (
-    <Width width={width}>
+    <>
       <Label htmlFor={name}>
         {label}
         {required && (
@@ -58,6 +58,6 @@ export const Select: React.FC<
         rules={{ required }}
       />
       {errors[name] && <Error name={name} />}
-    </Width>
+    </>
   )
 }

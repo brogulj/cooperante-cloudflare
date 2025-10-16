@@ -23,7 +23,7 @@ export const JobBoardBlock: React.FC<JobBoardBlockProps> = (params) => {
   }, [locale])
 
   return (
-    <section className="container py-12">
+    <section className="container py-12 lg:py-32">
       <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-12 gap-x-8">
         <div className="col-span-4 lg:col-span-12 max-w-4xl">
           {subtitle && <h3 className="text-lg font-medium mb-2">{subtitle}</h3>}

@@ -1,5 +1,6 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare'
+import path from 'path'
 
 initOpenNextCloudflareForDev({ environment: process.env.CLOUDFLARE_ENV })
 
@@ -29,6 +30,13 @@ const nextConfig = {
     }
 
     return webpackConfig
+  },
+  turbopack: {
+    root: '.',
+    resolveExtensions: ['.ts', '.tsx', '.js', '.jsx', '.cjs', '.mjs'],
+    resolveAlias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
   },
 } satisfies import('next').NextConfig
 

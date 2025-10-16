@@ -13,7 +13,7 @@ export const IndustriesBlock: React.FC<IndustriesBlockProps> = (props) => {
   const industriesFirstHalf = industries?.slice(0, Math.ceil(industries.length / 2))
   const industriesSecondHalf = industries?.slice(Math.ceil(industries.length / 2))
   return (
-    <div className="container flex flex-col gap-12 py-12">
+    <div className="container flex flex-col gap-12 py-12 lg:py-32">
       <div className="max-w-4xl">
         <h3 className="text-xl font-medium mb-2 leading-relaxed">{subtitle}</h3>
         <h2 className="text-5xl font-semibold mb-6">{title}</h2>

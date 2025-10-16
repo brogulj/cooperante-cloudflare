@@ -1,15 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react'
 import { Media, ServicesBlock as ServicesBlockProps } from '@/payload-types'
+import RichText from '@/components/frontend/richtext'
 
 export const ServicesBlock: React.FC<ServicesBlockProps> = (params) => {
-  const { title, subtitle, description, backgroundImage, imageIcons, icons } = params
+  const { title, subtitle, content, backgroundImage, imageIcons, icons } = params
   return (
-    <div className="container my-16 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:my-32 ">
+    <div className="container my-20 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:my-32 ">
       <div className="col-span-1">
         <h3 className="text-lg font-medium mb-2 uppercase">{subtitle}</h3>
-        <h2 className="text-3xl font-semibold mb-6">{title}</h2>
-        <p className="text-lg">{description}</p>
+        <h2 className="text-3xl font-semibold mb-6 lg:text-4xl">{title}</h2>
+        {content && <RichText data={content} className="[&_p]:text-lg" />}
       </div>
       <div className="h-[50vh] relative sm:h-[40vh] md:h-[50vh] col-span-1 lg:h-full">
         {backgroundImage && typeof backgroundImage === 'object' && (

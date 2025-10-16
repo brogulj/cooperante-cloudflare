@@ -198,6 +198,8 @@ export interface Page {
         | BenefitsBlock
         | CTABlock
         | FormBlock
+        | IndustriesGlobeBlock
+        | BlogPostsBlock
       )[]
     | null;
   meta?: {
@@ -217,6 +219,7 @@ export interface Page {
  */
 export interface LanderHero {
   title?: string | null;
+  dark?: boolean | null;
   subtitle?: string | null;
   links?:
     | {
@@ -263,7 +266,21 @@ export interface LanderHero {
  */
 export interface TrustBlock {
   title: string;
-  description: string;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   companyLogos: {
     logo: number | Media;
     id?: string | null;
@@ -279,7 +296,21 @@ export interface TrustBlock {
 export interface ServicesBlock {
   title: string;
   subtitle: string;
-  description: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   backgroundImage?: (number | null) | Media;
   imageIcons?:
     | {
@@ -487,7 +518,9 @@ export interface BenefitsBlock {
   dark?: boolean | null;
   title?: string | null;
   items: {
+    title?: string | null;
     text: string;
+    icon?: (number | null) | Media;
     id?: string | null;
   }[];
   id?: string | null;
@@ -759,6 +792,7 @@ export interface Form {
 export interface BlogPost {
   id: number;
   title: string;
+  excerpt?: string | null;
   categories?: (number | Category)[] | null;
   headerImage?: (number | null) | Media;
   headerTheme?: ('light' | 'dark') | null;
@@ -803,6 +837,67 @@ export interface Category {
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IndustriesGlobeBlock".
+ */
+export interface IndustriesGlobeBlock {
+  title?: string | null;
+  description?: string | null;
+  industries?:
+    | {
+        industry?: string | null;
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  countries?:
+    | {
+        country?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  mainLocationLatLong: string;
+  locationsLatLong?:
+    | {
+        latLong?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'IndustriesGlobeBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogPostsBlock".
+ */
+export interface BlogPostsBlock {
+  title: string;
+  description: string;
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'BlogPostsBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -987,6 +1082,8 @@ export interface PagesSelect<T extends boolean = true> {
         BenefitsBlock?: T | BenefitsBlockSelect<T>;
         CTABlock?: T | CTABlockSelect<T>;
         FormBlock?: T | FormBlockSelect<T>;
+        IndustriesGlobeBlock?: T | IndustriesGlobeBlockSelect<T>;
+        BlogPostsBlock?: T | BlogPostsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1004,6 +1101,7 @@ export interface PagesSelect<T extends boolean = true> {
  */
 export interface LanderHeroSelect<T extends boolean = true> {
   title?: T;
+  dark?: T;
   subtitle?: T;
   links?:
     | T
@@ -1064,7 +1162,7 @@ export interface TrustBlockSelect<T extends boolean = true> {
 export interface ServicesBlockSelect<T extends boolean = true> {
   title?: T;
   subtitle?: T;
-  description?: T;
+  content?: T;
   backgroundImage?: T;
   imageIcons?:
     | T
@@ -1267,7 +1365,9 @@ export interface BenefitsBlockSelect<T extends boolean = true> {
   items?:
     | T
     | {
+        title?: T;
         text?: T;
+        icon?: T;
         id?: T;
       };
   id?: T;
@@ -1312,6 +1412,61 @@ export interface FormBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IndustriesGlobeBlock_select".
+ */
+export interface IndustriesGlobeBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  industries?:
+    | T
+    | {
+        industry?: T;
+        image?: T;
+        id?: T;
+      };
+  countries?:
+    | T
+    | {
+        country?: T;
+        id?: T;
+      };
+  mainLocationLatLong?: T;
+  locationsLatLong?:
+    | T
+    | {
+        latLong?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogPostsBlock_select".
+ */
+export interface BlogPostsBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  links?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "jobAds_select".
  */
 export interface JobAdsSelect<T extends boolean = true> {
@@ -1336,6 +1491,7 @@ export interface JobAdsSelect<T extends boolean = true> {
  */
 export interface BlogPostsSelect<T extends boolean = true> {
   title?: T;
+  excerpt?: T;
   categories?: T;
   headerImage?: T;
   headerTheme?: T;

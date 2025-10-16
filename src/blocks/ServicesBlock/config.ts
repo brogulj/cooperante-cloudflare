@@ -1,3 +1,9 @@
+import {
+  FixedToolbarFeature,
+  HorizontalRuleFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
 import { Block } from 'payload'
 
 export const ServicesBlock: Block = {
@@ -17,10 +23,19 @@ export const ServicesBlock: Block = {
       localized: true,
     },
     {
-      name: 'description',
-      type: 'text',
-      required: true,
+      name: 'content',
+      type: 'richText',
       localized: true,
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+            HorizontalRuleFeature(),
+          ]
+        },
+      }),
     },
     {
       name: 'backgroundImage',

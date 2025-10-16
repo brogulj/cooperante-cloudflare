@@ -15,7 +15,7 @@ export const Email: React.FC<
   }
 > = ({ name, defaultValue, errors, label, register, required, width }) => {
   return (
-    <Width width={width}>
+    <>
       <Label htmlFor={name}>
         {label}
 
@@ -33,6 +33,6 @@ export const Email: React.FC<
       />
 
       {errors[name] && <Error name={name} />}
-    </Width>
+    </>
   )
 }

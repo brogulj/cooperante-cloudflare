@@ -23,7 +23,7 @@ export const State: React.FC<
   }
 > = ({ name, control, errors, label, required, width }) => {
   return (
-    <Width width={width}>
+    <>
       <Label htmlFor={name}>
         {label}
         {required && (
@@ -59,6 +59,6 @@ export const State: React.FC<
         rules={{ required }}
       />
       {errors[name] && <Error name={name} />}
-    </Width>
+    </>
   )
 }

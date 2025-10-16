@@ -10,6 +10,8 @@ import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
 import RichText from '@/components/frontend/richtext'
+import { cn } from '@/lib/utils'
+import { Width } from './Width'
 
 export type FormBlockType = {
   blockName?: string
@@ -145,15 +147,40 @@ export const FormBlock: React.FC<
                 handleSubmit(onSubmit)(e)
               }}
             >
-              <div className="mb-4 last:mb-0">
+              <div className="mb-4 last:mb-0 grid grid-cols-10 gap-4 mt-2">
                 {formFromProps &&
                   formFromProps.fields &&
                   formFromProps.fields?.map((field, index) => {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const Field: React.FC<any> = fields?.[field.blockType as keyof typeof fields]
-                    if (Field) {
+
+                    const lastFieldsInRow: number[] = []
+
+                    console.log(lastFieldsInRow)
+                    if (Field && field.blockType !== 'message') {
                       return (
-                        <div className="mb-6 last:mb-0" key={index}>
+                        <div
+                          key={index}
+                          className={cn('w-full', lastFieldsInRow.includes(index) ? 'pr-4' : '')}
+                          style={{
+                            gridColumn: field.width
+                              ? `span ${Math.floor(field.width / 10)}`
+                              : 'span 10',
+                          }}
+                        >
+                          <Field
+                            form={formFromProps}
+                            {...field}
+                            {...formMethods}
+                            control={control}
+                            errors={errors}
+                            register={register}
+                          />
+                        </div>
+                      )
+                    } else if (field.blockType === 'message') {
+                      return (
+                        <div key={index} className="col-span-10">
                           <Field
                             form={formFromProps}
                             {...field}

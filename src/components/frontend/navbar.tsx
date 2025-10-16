@@ -115,7 +115,7 @@ export const Navbar = ({ navbar }: { navbar: NavbarType }) => {
                       <CMSLink
                         key={item.id}
                         appearance="link"
-                        className="rounded-md px-3 py-2 text-base hover:bg-accent hover:text-accent-foreground w-full"
+                        className="rounded-md px-3 py-2 text-base hover:bg-accent hover:text-accent-foreground w-full whitespace-normal"
                         type={l.type ?? undefined}
                         newTab={l.newTab ?? undefined}
                         reference={

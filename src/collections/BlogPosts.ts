@@ -38,6 +38,11 @@ export const BlogPosts: CollectionConfig = {
       localized: true,
     },
     {
+      name: 'excerpt',
+      type: 'text',
+      localized: true,
+    },
+    {
       name: 'categories',
       type: 'relationship',
       relationTo: 'categories',
