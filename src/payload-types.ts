@@ -201,6 +201,7 @@ export interface Page {
         | IndustriesGlobeBlock
         | BlogPostsBlock
         | ContactBlock
+        | RichTextBlock
       )[]
     | null;
   meta?: {
@@ -963,6 +964,30 @@ export interface ContactBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RichTextBlock".
+ */
+export interface RichTextBlock {
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'RichTextBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "jobAds".
  */
 export interface JobAd {
@@ -1148,6 +1173,7 @@ export interface PagesSelect<T extends boolean = true> {
         IndustriesGlobeBlock?: T | IndustriesGlobeBlockSelect<T>;
         BlogPostsBlock?: T | BlogPostsBlockSelect<T>;
         ContactBlock?: T | ContactBlockSelect<T>;
+        RichTextBlock?: T | RichTextBlockSelect<T>;
       };
   meta?:
     | T
@@ -1583,6 +1609,15 @@ export interface ContactBlockSelect<T extends boolean = true> {
         person?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RichTextBlock_select".
+ */
+export interface RichTextBlockSelect<T extends boolean = true> {
+  content?: T;
   id?: T;
   blockName?: T;
 }

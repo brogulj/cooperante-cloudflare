@@ -22,7 +22,7 @@ export const BlogPostsBlock: React.FC<BlogPostsBlockProps> = (props) => {
 
   return (
     <section className="dark bg-background text-foreground">
-      <div className="container py-12 lg:py-32">
+      <div className="container py-12 lg:py-32 xl:px-20">
         <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-12 gap-x-8">
           <div className="col-span-4 lg:col-span-12 max-w-4xl">
             {title && (

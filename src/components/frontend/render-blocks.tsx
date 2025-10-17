@@ -17,6 +17,7 @@ import { BlogPostsBlock } from '@/blocks/BlogPostsBlock/component'
 import { Page } from '@/payload-types'
 import React from 'react'
 import { ContactBlock } from '@/blocks/ContactBlock/component'
+import { RichTextBlock } from '@/blocks/RichTextBlock/component'
 
 type Block = NonNullable<Page['content']>[number]
 
@@ -44,6 +45,7 @@ type BlockComponentMap = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   BlogPostsBlock: React.ComponentType<any>
   ContactBlock: React.ComponentType<Extract<Block, { blockType: 'ContactBlock' }>>
+  RichTextBlock: React.ComponentType<Extract<Block, { blockType: 'RichTextBlock' }>>
 }
 
 const blockComponents: BlockComponentMap = {
@@ -64,6 +66,7 @@ const blockComponents: BlockComponentMap = {
   IndustriesGlobeBlock: IndustriesGlobeBlock,
   BlogPostsBlock: BlogPostsBlock,
   ContactBlock: ContactBlock,
+  RichTextBlock: RichTextBlock,
 }
 
 export const RenderBlocks: React.FC<{ blocks?: Page['content'] }> = ({ blocks }) => {
@@ -146,6 +149,10 @@ export const RenderBlocks: React.FC<{ blocks?: Page['content'] }> = ({ blocks })
             )
           case 'ContactBlock':
             return <blockComponents.ContactBlock key={block.id ?? `ContactBlock-${i}`} {...block} />
+          case 'RichTextBlock':
+            return (
+              <blockComponents.RichTextBlock key={block.id ?? `RichTextBlock-${i}`} {...block} />
+            )
           default:
             return null
         }

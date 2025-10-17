@@ -25,11 +25,11 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
   return (
     <div
       className={cn(
-        'relative flex items-end sm:items-center md:items-end justify-end bg-background text-foreground min-h-[80vh]',
+        'container relative flex items-end sm:items-center md:items-end justify-end lg:justify-between bg-background text-foreground min-h-[80vh] xl:px-20',
         dark && 'dark',
       )}
     >
-      <div className="container mb-12 sm:mb-10 z-10 relative pt-24">
+      <div className=" mb-12 sm:mb-10 z-10 relative pt-24">
         <div className="flex w-full flex-col lg:flex-row gap-10 lg:gap-16">
           <div className="max-w-[36.5rem] md:text-left lg:mb-20 xl:mb-32">
             <h1 className="text-4xl font-semibold mb-4 leading-tight xl:text-5xl">{title}</h1>

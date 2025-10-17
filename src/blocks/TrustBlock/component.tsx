@@ -19,7 +19,7 @@ export const TrustBlock: React.FC<TrustBlockProps> = (props) => {
   const visibleLogos: MediaDoc[] = React.useMemo(() => logos, [logos])
 
   return (
-    <section className="container my-16 lg:my-20 mx-auto">
+    <section className="container my-16 lg:my-20 mx-auto xl:px-20">
       <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-6 gap-x-16">
         <div className="col-span-4 lg:col-span-12 max-w-4xl">
           {title && (

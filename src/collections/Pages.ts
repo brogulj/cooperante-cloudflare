@@ -19,6 +19,7 @@ import { FormBlock } from '@/blocks/Form/config'
 import { IndustriesGlobeBlock } from '@/blocks/IndustriesGlobeBlock/config'
 import { BlogPostsBlock } from '@/blocks/BlogPostsBlock/config'
 import { ContactBlock } from '@/blocks/ContactBlock/config'
+import { RichTextBlock } from '@/blocks/RichTextBlock/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -77,6 +78,7 @@ export const Pages: CollectionConfig<'pages'> = {
         IndustriesGlobeBlock,
         BlogPostsBlock,
         ContactBlock,
+        RichTextBlock,
       ],
     },
   ],

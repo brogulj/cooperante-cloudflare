@@ -112,8 +112,8 @@ export const IndustriesGlobeBlock: React.FC<IndustriesGlobeBlockProps> = (props)
   }, [main, dims.w, dims.h, globeReady])
 
   return (
-    <section className="py-16 lg:py-32">
-      <div className="container grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-20">
+    <section className="container py-16 lg:py-32 xl:px-20">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-20">
         <div className="flex flex-col gap-6">
           {title ? <h2 className="text-3xl font-semibold lg:text-4xl">{title}</h2> : null}
 
