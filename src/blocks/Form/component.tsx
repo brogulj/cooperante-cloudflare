@@ -11,13 +11,19 @@ import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
 import RichText from '@/components/frontend/richtext'
 import { cn } from '@/lib/utils'
-import { Width } from './Width'
+import { useT } from '@/app/i18n/client'
 
 export type FormBlockType = {
   blockName?: string
   blockType?: 'FormBlock'
   enableIntro?: boolean
-  form: FormType
+  form: FormType & {
+    privacyPolicy?: boolean
+    contact?: boolean
+    newsletter?: boolean
+    marketing?: boolean
+    termsAndConditions?: boolean
+  }
   introContent?: DefaultTypedEditorState
 }
 
@@ -32,9 +38,9 @@ export const FormBlock: React.FC<
     form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
     introContent,
   } = props
-
+  const { t } = useT()
   const formMethods = useForm({
-    defaultValues: formFromProps.fields,
+    defaultValues: { ...formFromProps.fields },
   })
   const {
     control,
@@ -128,7 +134,7 @@ export const FormBlock: React.FC<
   )
 
   return (
-    <div className="container lg:max-w-[48rem]">
+    <div className="lg:max-w-4xl flex-shrink-0 w-full">
       {enableIntro && introContent && !hasSubmitted && (
         <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
       )}
@@ -146,27 +152,46 @@ export const FormBlock: React.FC<
                 e.preventDefault()
                 handleSubmit(onSubmit)(e)
               }}
+              className="flex flex-col"
             >
-              <div className="mb-4 last:mb-0 grid grid-cols-10 gap-4 mt-2">
+              <div className="mb-4 last:mb-0 grid grid-cols-10 gap-4 mt-2 gap-y-6">
                 {formFromProps &&
                   formFromProps.fields &&
                   formFromProps.fields?.map((field, index) => {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const Field: React.FC<any> = fields?.[field.blockType as keyof typeof fields]
 
-                    const lastFieldsInRow: number[] = []
-
-                    console.log(lastFieldsInRow)
+                    console.log((field as any).width, field.blockType)
                     if (Field && field.blockType !== 'message') {
                       return (
                         <div
                           key={index}
-                          className={cn('w-full', lastFieldsInRow.includes(index) ? 'pr-4' : '')}
-                          style={{
-                            gridColumn: field.width
-                              ? `span ${Math.floor(field.width / 10)}`
-                              : 'span 10',
-                          }}
+                          className={cn(
+                            'w-full col-span-10',
+                            field.width
+                              ? (() => {
+                                  if (field.width <= 10) {
+                                    return `md:col-span-1`
+                                  } else if (field.width <= 20) {
+                                    return `md:col-span-2`
+                                  } else if (field.width <= 30) {
+                                    return `md:col-span-3`
+                                  } else if (field.width <= 40) {
+                                    return `md:col-span-4`
+                                  } else if (field.width <= 50) {
+                                    return `md:col-span-5`
+                                  } else if (field.width <= 60) {
+                                    return `md:col-span-6`
+                                  } else if (field.width <= 70) {
+                                    return `md:col-span-7`
+                                  } else if (field.width <= 80) {
+                                    return `md:col-span-8`
+                                  } else if (field.width <= 90) {
+                                    return `md:col-span-9`
+                                  }
+                                })()
+                              : '',
+                          )}
                         >
                           <Field
                             form={formFromProps}
@@ -194,9 +219,92 @@ export const FormBlock: React.FC<
                     }
                     return null
                   })}
+                {formFromProps.privacyPolicy &&
+                  (() => {
+                    const Field: React.FC<any> = fields?.['checkbox']
+                    return (
+                      <div className="col-span-10">
+                        <Field
+                          name="privacyPolicy"
+                          {...formMethods}
+                          control={control}
+                          errors={errors}
+                          register={register}
+                          label={t('privacyPolicyCheckboxLabel')}
+                          required
+                        />
+                      </div>
+                    )
+                  })()}
+                {formFromProps.contact &&
+                  (() => {
+                    const Field: React.FC<any> = fields?.['checkbox']
+                    return (
+                      <div className="col-span-10">
+                        <Field
+                          name="contact"
+                          {...formMethods}
+                          control={control}
+                          errors={errors}
+                          register={register}
+                          label={t('contactCheckboxLabel')}
+                          required
+                        />
+                      </div>
+                    )
+                  })()}
+                {formFromProps.newsletter &&
+                  (() => {
+                    const Field: React.FC<any> = fields?.['checkbox']
+                    return (
+                      <div className="col-span-10">
+                        <Field
+                          name="newsletter"
+                          {...formMethods}
+                          control={control}
+                          errors={errors}
+                          register={register}
+                          label={t('newsletterCheckboxLabel')}
+                        />
+                      </div>
+                    )
+                  })()}
+                {formFromProps.marketing &&
+                  (() => {
+                    const Field: React.FC<any> = fields?.['checkbox']
+                    return (
+                      <div className="col-span-10">
+                        <Field
+                          name="marketing"
+                          {...formMethods}
+                          control={control}
+                          errors={errors}
+                          register={register}
+                          label={t('marketingCheckboxLabel')}
+                        />
+                      </div>
+                    )
+                  })()}
+                {formFromProps.termsAndConditions &&
+                  (() => {
+                    const Field: React.FC<any> = fields?.['checkbox']
+                    return (
+                      <div className="col-span-10">
+                        <Field
+                          name="termsAndConditions"
+                          {...formMethods}
+                          control={control}
+                          errors={errors}
+                          register={register}
+                          label={t('termsAndConditionsCheckboxLabel')}
+                          required
+                        />
+                      </div>
+                    )
+                  })()}
               </div>
 
-              <Button form={formID} type="submit" variant="default">
+              <Button form={formID} type="submit" variant="default" className="ml-auto">
                 {submitButtonLabel}
               </Button>
             </form>

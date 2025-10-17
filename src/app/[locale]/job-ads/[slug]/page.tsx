@@ -3,6 +3,7 @@ import configPromise from '@/payload.config'
 import { AppLocale } from '@/app/i18n/settings'
 import Link from 'next/link'
 import getT from '@/app/i18n'
+import { FormBlock } from '@/blocks/Form/component'
 
 export default async function JobAdDetailPage({
   params,
@@ -59,6 +60,11 @@ export default async function JobAdDetailPage({
         <div className="space-y-2">
           <h2 className="text-xl font-semibold">{t('benefits')}</h2>
           <p className="whitespace-pre-line text-base leading-relaxed">{jobAd.benefits}</p>
+        </div>
+      )}
+      {jobAd.form && (
+        <div className="py-12">
+          <FormBlock form={jobAd.form} />
         </div>
       )}
     </div>

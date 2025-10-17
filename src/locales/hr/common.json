@@ -3,7 +3,8 @@
   "employmentTypeOptions": {
     "full_time": "Za Stalno",
     "seasonal": "Sezonski",
-    "temporary": "Privremeni"
+    "temporary": "Privremeni",
+    "all": "Sve vrste"
   },
   "numberOfOpenings": "Broj otvorenih pozicija",
   "shortDescription": "Kratak opis",
@@ -28,5 +29,20 @@
   "readMore": "Saznaj više",
   "allBlogs": "Sve objave",
   "countriesOfOrigin": "Države izvora",
-  "industries": "Industrije"
+  "industries": "Industrije",
+  "sortByDate": "Sortiraj po datumu",
+  "sortByDateOptions": {
+    "newestFirst": "Najnoviji prvi",
+    "oldestFirst": "Najstariji prvi"
+  },
+  "privacyPolicyCheckboxLabel": "Slažem se s politikom privatnosti",
+  "contactCheckboxLabel": "Želim biti kontaktiran od strane kompanije",
+  "newsletterCheckboxLabel": "Želim primati newsletter",
+  "marketingCheckboxLabel": "Želim primati marketing materijale",
+  "termsAndConditionsCheckboxLabel": "Slažem se s pravilima i uvjetima poslovanja",
+  "candidatePoolCTA": {
+    "title": "Niste našli posao za sebe?",
+    "description": "Prijavi se u našu bazu kandidata i zvat ćemo te kada se otvori pozicija koja ti odgovara.",
+    "button": "Prijavi se u bazu"
+  }
 }

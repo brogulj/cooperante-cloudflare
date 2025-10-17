@@ -16,6 +16,7 @@ import { IndustriesGlobeBlock } from '@/blocks/IndustriesGlobeBlock/component'
 import { BlogPostsBlock } from '@/blocks/BlogPostsBlock/component'
 import { Page } from '@/payload-types'
 import React from 'react'
+import { ContactBlock } from '@/blocks/ContactBlock/component'
 
 type Block = NonNullable<Page['content']>[number]
 
@@ -42,6 +43,7 @@ type BlockComponentMap = {
   IndustriesGlobeBlock: React.ComponentType<Extract<Block, { blockType: 'IndustriesGlobeBlock' }>>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   BlogPostsBlock: React.ComponentType<any>
+  ContactBlock: React.ComponentType<Extract<Block, { blockType: 'ContactBlock' }>>
 }
 
 const blockComponents: BlockComponentMap = {
@@ -61,6 +63,7 @@ const blockComponents: BlockComponentMap = {
   FormBlock: FormBlock,
   IndustriesGlobeBlock: IndustriesGlobeBlock,
   BlogPostsBlock: BlogPostsBlock,
+  ContactBlock: ContactBlock,
 }
 
 export const RenderBlocks: React.FC<{ blocks?: Page['content'] }> = ({ blocks }) => {
@@ -123,8 +126,11 @@ export const RenderBlocks: React.FC<{ blocks?: Page['content'] }> = ({ blocks })
             return <blockComponents.CTABlock key={block.id ?? `CTABlock-${i}`} {...block} />
           case 'FormBlock':
             return (
-              <div className="py-12">
-                <blockComponents.FormBlock key={block.id ?? `FormBlock-${i}`} {...block} />
+              <div
+                className="py-12 container mx-0 xl:px-20 flex justify-center w-full max-w-screen"
+                key={block.id ?? `FormBlock-${i}`}
+              >
+                <blockComponents.FormBlock {...block} />
               </div>
             )
           case 'IndustriesGlobeBlock':
@@ -138,6 +144,8 @@ export const RenderBlocks: React.FC<{ blocks?: Page['content'] }> = ({ blocks })
             return (
               <blockComponents.BlogPostsBlock key={block.id ?? `BlogPostsBlock-${i}`} {...block} />
             )
+          case 'ContactBlock':
+            return <blockComponents.ContactBlock key={block.id ?? `ContactBlock-${i}`} {...block} />
           default:
             return null
         }

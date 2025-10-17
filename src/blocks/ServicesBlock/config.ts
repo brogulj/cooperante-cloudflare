@@ -19,7 +19,6 @@ export const ServicesBlock: Block = {
     {
       name: 'subtitle',
       type: 'text',
-      required: true,
       localized: true,
     },
     {

@@ -47,7 +47,7 @@ export const JobBoardBlock: React.FC<JobBoardBlockProps> = (params) => {
         <div className="col-span-4 lg:col-span-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {jobs.map((job) => {
-              const href = job?.slug ? `/jobAds/${job.slug}` : undefined
+              const href = job?.slug ? `/job-ads/${job.slug}` : undefined
 
               return (
                 <article

@@ -121,11 +121,11 @@ export const IndustriesGlobeBlock: React.FC<IndustriesGlobeBlockProps> = (props)
 
           <h3 className="text-xl font-medium leading-relaxed mt-4">{t('industries')}</h3>
           {Array.isArray(industries) && industries.length > 0 ? (
-            <div className="grid grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {industries.map((it) => (
-                <div key={it.id ?? it.industry} className=" overflow-hidden">
-                  <div className="flex">
-                    <p className="text-lg font-medium">{it.industry}</p>
+                <div key={it.id ?? it.industry} className="">
+                  <div className="flex justify-center">
+                    <p className="font-medium text-center">{it.industry}</p>
                   </div>
                 </div>
               ))}

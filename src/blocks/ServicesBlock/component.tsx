@@ -8,7 +8,7 @@ export const ServicesBlock: React.FC<ServicesBlockProps> = (params) => {
   return (
     <div className="container my-20 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:my-32 ">
       <div className="col-span-1">
-        <h3 className="text-lg font-medium mb-2 uppercase">{subtitle}</h3>
+        {subtitle && <h3 className="text-lg font-medium mb-2 uppercase">{subtitle}</h3>}
         <h2 className="text-3xl font-semibold mb-6 lg:text-4xl">{title}</h2>
         {content && <RichText data={content} className="[&_p]:text-lg" />}
       </div>

@@ -17,8 +17,10 @@ import { Badge } from '@/components/ui/badge'
 import { Media as MediaType } from '@/payload-types'
 import { LinkBase } from '@/components/ui/locale-link'
 import getT from '@/app/i18n'
+import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
-type SearchParams = Promise<{ page?: string }>
+type SearchParams = Promise<{ page?: string; sort?: string }>
 
 export default async function CategoryPage({
   params,
@@ -28,7 +30,7 @@ export default async function CategoryPage({
   searchParams: SearchParams
 }) {
   const { locale, slug } = await params
-  const { page: pageParam } = await searchParams
+  const { page: pageParam, sort: sortParam } = await searchParams
 
   const page = Math.max(1, Number(pageParam) || 1)
   const limit = 10
@@ -54,13 +56,16 @@ export default async function CategoryPage({
     )
   }
 
+  // Determine sort order (default is descending by published date)
+  const sortOrder = sortParam === 'asc' ? 'publishedAt' : '-publishedAt'
+
   const result = await payload.find({
     collection: 'blogPosts',
     locale: locale as AppLocale,
     where: {
       and: [{ publishedAt: { exists: true } }, { categories: { contains: category.id } }],
     },
-    sort: '-publishedAt',
+    sort: sortOrder,
     depth: 1,
     limit,
     page,
@@ -105,6 +110,35 @@ export default async function CategoryPage({
       <h1 className="text-3xl font-bold mb-2 lg:text-4xl">{category.name}</h1>
       <p className="text-muted-foreground mb-8">{t('postsInThisCategory')}</p>
 
+      {/* Sort Order */}
+      <div className="mb-8 flex flex-col gap-2">
+        <label className="text-sm font-medium">{t('sortByDate')}</label>
+        <div className="flex gap-2">
+          <LinkBase
+            lng={locale}
+            href={`/blog/category/${slug}`}
+            className={`px-3 py-2 border rounded-md text-sm transition-colors ${
+              !sortParam || sortParam === 'desc'
+                ? 'border-blue-500 bg-blue-50 text-blue-700'
+                : 'border-gray-300 hover:border-gray-400'
+            }`}
+          >
+            {t('sortByDateOptions.newestFirst')}
+          </LinkBase>
+          <LinkBase
+            lng={locale}
+            href={`/blog/category/${slug}?sort=asc`}
+            className={`px-3 py-2 border rounded-md text-sm transition-colors ${
+              sortParam === 'asc'
+                ? 'border-blue-500 bg-blue-50 text-blue-700'
+                : 'border-gray-300 hover:border-gray-400'
+            }`}
+          >
+            {t('sortByDateOptions.oldestFirst')}
+          </LinkBase>
+        </div>
+      </div>
+
       {posts.length === 0 ? (
         <p>{t('noPostsFound')}</p>
       ) : (
@@ -117,6 +151,7 @@ export default async function CategoryPage({
                     {post.headerImage ? (
                       <img
                         src={(post.headerImage as MediaType).url}
+                        alt={post.title}
                         className="object-cover h-full w-full"
                       />
                     ) : null}
@@ -158,7 +193,7 @@ export default async function CategoryPage({
               <PaginationItem>
                 <PaginationPrevious
                   lng={locale}
-                  href={`/blog/category/${slug}?page=${currentPage - 1}`}
+                  href={`/blog/category/${slug}?page=${currentPage - 1}${sortParam ? `&sort=${sortParam}` : ''}`}
                 />
               </PaginationItem>
             )}
@@ -169,7 +204,7 @@ export default async function CategoryPage({
                 ) : (
                   <PaginationLink
                     lng={locale}
-                    href={`/blog/category/${slug}?page=${item}`}
+                    href={`/blog/category/${slug}?page=${item}${sortParam ? `&sort=${sortParam}` : ''}`}
                     isActive={item === currentPage}
                   >
                     {item}
@@ -181,7 +216,7 @@ export default async function CategoryPage({
               <PaginationItem>
                 <PaginationNext
                   lng={locale}
-                  href={`/blog/category/${slug}?page=${currentPage + 1}`}
+                  href={`/blog/category/${slug}?page=${currentPage + 1}${sortParam ? `&sort=${sortParam}` : ''}`}
                 />
               </PaginationItem>
             )}

@@ -200,6 +200,7 @@ export interface Page {
         | FormBlock
         | IndustriesGlobeBlock
         | BlogPostsBlock
+        | ContactBlock
       )[]
     | null;
   meta?: {
@@ -295,7 +296,7 @@ export interface TrustBlock {
  */
 export interface ServicesBlock {
   title: string;
-  subtitle: string;
+  subtitle?: string | null;
   content?: {
     root: {
       type: string;
@@ -782,6 +783,11 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
+  privacyPolicy?: boolean | null;
+  contact?: boolean | null;
+  newsletter?: boolean | null;
+  marketing?: boolean | null;
+  termsAndConditions?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -901,6 +907,62 @@ export interface BlogPostsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactBlock".
+ */
+export interface ContactBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  contactInformation?: {
+    phones?:
+      | {
+          phone?: string | null;
+          phoneLink?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    emails?:
+      | {
+          email?: string | null;
+          emailLink?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    addresses?:
+      | {
+          address?: string | null;
+          addressLink?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    socials?:
+      | {
+          social?: string | null;
+          socialLink?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    mapEmbedUrl?: string | null;
+  };
+  form: number | Form;
+  clients?:
+    | {
+        client?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  testimonials?:
+    | {
+        testimonial?: string | null;
+        person?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'ContactBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "jobAds".
  */
 export interface JobAd {
@@ -916,6 +978,7 @@ export interface JobAd {
   shortDescription: string;
   benefits: string;
   status?: ('active' | 'inactive') | null;
+  form?: (number | null) | Form;
   translated?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -1084,6 +1147,7 @@ export interface PagesSelect<T extends boolean = true> {
         FormBlock?: T | FormBlockSelect<T>;
         IndustriesGlobeBlock?: T | IndustriesGlobeBlockSelect<T>;
         BlogPostsBlock?: T | BlogPostsBlockSelect<T>;
+        ContactBlock?: T | ContactBlockSelect<T>;
       };
   meta?:
     | T
@@ -1467,6 +1531,63 @@ export interface BlogPostsBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactBlock_select".
+ */
+export interface ContactBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  contactInformation?:
+    | T
+    | {
+        phones?:
+          | T
+          | {
+              phone?: T;
+              phoneLink?: T;
+              id?: T;
+            };
+        emails?:
+          | T
+          | {
+              email?: T;
+              emailLink?: T;
+              id?: T;
+            };
+        addresses?:
+          | T
+          | {
+              address?: T;
+              addressLink?: T;
+              id?: T;
+            };
+        socials?:
+          | T
+          | {
+              social?: T;
+              socialLink?: T;
+              id?: T;
+            };
+        mapEmbedUrl?: T;
+      };
+  form?: T;
+  clients?:
+    | T
+    | {
+        client?: T;
+        id?: T;
+      };
+  testimonials?:
+    | T
+    | {
+        testimonial?: T;
+        person?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "jobAds_select".
  */
 export interface JobAdsSelect<T extends boolean = true> {
@@ -1481,6 +1602,7 @@ export interface JobAdsSelect<T extends boolean = true> {
   shortDescription?: T;
   benefits?: T;
   status?: T;
+  form?: T;
   translated?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1671,6 +1793,11 @@ export interface FormsSelect<T extends boolean = true> {
         message?: T;
         id?: T;
       };
+  privacyPolicy?: T;
+  contact?: T;
+  newsletter?: T;
+  marketing?: T;
+  termsAndConditions?: T;
   updatedAt?: T;
   createdAt?: T;
 }

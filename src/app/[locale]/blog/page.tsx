@@ -19,7 +19,7 @@ import getT from '@/app/i18n'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-type SearchParams = Promise<{ page?: string }>
+type SearchParams = Promise<{ page?: string; sort?: string }>
 
 export default async function BlogArchivePage({
   params,
@@ -29,7 +29,7 @@ export default async function BlogArchivePage({
   searchParams: SearchParams
 }) {
   const { locale } = await params
-  const { page: pageParam } = await searchParams
+  const { page: pageParam, sort: sortParam } = await searchParams
   const { t } = await getT('common')
 
   const page = Math.max(1, Number(pageParam) || 1)
@@ -37,13 +37,28 @@ export default async function BlogArchivePage({
 
   const payload = await getPayload({ config: configPromise })
 
+  // Fetch all categories
+  const categoriesResult = await payload.find({
+    collection: 'categories',
+    locale: locale as AppLocale,
+    limit: 1000,
+    depth: 0,
+  })
+  const allCategories = categoriesResult.docs as any[]
+
+  // Build where clause
+  const whereClause: Record<string, unknown> = {
+    publishedAt: { exists: true },
+  }
+
+  // Determine sort order (default is descending by published date)
+  const sortOrder = sortParam === 'asc' ? 'publishedAt' : '-publishedAt'
+
   const result = await payload.find({
     collection: 'blogPosts',
     locale: locale as AppLocale,
-    where: {
-      publishedAt: { exists: true },
-    },
-    sort: '-publishedAt',
+    where: whereClause,
+    sort: sortOrder,
     depth: 1,
     limit,
     page,
@@ -78,6 +93,54 @@ export default async function BlogArchivePage({
     <div className="max-w-none lg:max-w-4xl xl:max-w-5xl mx-auto px-4 py-12">
       <h1 className="text-3xl font-bold mb-8 lg:text-4xl">{t('blog')}</h1>
 
+      {/* Categories Links */}
+      {allCategories.length > 0 && (
+        <div className="mb-8 flex flex-col gap-4">
+          <label className="text-sm font-medium">{t('categories')}</label>
+          <div className="flex gap-2 flex-row flex-wrap">
+            {allCategories.map((category: any) => (
+              <LinkBase
+                lng={locale}
+                key={category.id}
+                href={`/blog/category/${category.slug}`}
+                className="px-3 py-2 border border-gray-300 rounded-md text-sm transition-colors hover:border-gray-400"
+              >
+                {category.name}
+              </LinkBase>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Sort Order */}
+      <div className="mb-8 flex flex-col gap-2">
+        <label className="text-sm font-medium">{t('sortByDate')}</label>
+        <div className="flex gap-2">
+          <LinkBase
+            lng={locale}
+            href="/blog"
+            className={`px-3 py-2 border rounded-md text-sm transition-colors ${
+              !sortParam || sortParam === 'desc'
+                ? 'border-blue-500 bg-blue-50 text-blue-700'
+                : 'border-gray-300 hover:border-gray-400'
+            }`}
+          >
+            {t('sortByDateOptions.newestFirst')}
+          </LinkBase>
+          <LinkBase
+            lng={locale}
+            href="/blog?sort=asc"
+            className={`px-3 py-2 border rounded-md text-sm transition-colors ${
+              sortParam === 'asc'
+                ? 'border-blue-500 bg-blue-50 text-blue-700'
+                : 'border-gray-300 hover:border-gray-400'
+            }`}
+          >
+            {t('sortByDateOptions.oldestFirst')}
+          </LinkBase>
+        </div>
+      </div>
+
       {posts.length === 0 ? (
         <p>{t('noPostsFound')}</p>
       ) : (
@@ -90,6 +153,7 @@ export default async function BlogArchivePage({
                     {post.headerImage ? (
                       <img
                         src={(post.headerImage as MediaType).url}
+                        alt={post.title}
                         className="object-cover h-full w-full"
                       />
                     ) : null}
@@ -139,7 +203,10 @@ export default async function BlogArchivePage({
           <PaginationContent>
             {currentPage > 1 && (
               <PaginationItem>
-                <PaginationPrevious lng={locale} href={`/blog?page=${currentPage - 1}`} />
+                <PaginationPrevious
+                  lng={locale}
+                  href={`/blog?page=${currentPage - 1}${sortParam ? `&sort=${sortParam}` : ''}`}
+                />
               </PaginationItem>
             )}
             {pageItems.map((item, idx) => (
@@ -149,7 +216,7 @@ export default async function BlogArchivePage({
                 ) : (
                   <PaginationLink
                     lng={locale}
-                    href={`/blog?page=${item}`}
+                    href={`/blog?page=${item}${sortParam ? `&sort=${sortParam}` : ''}`}
                     isActive={item === currentPage}
                   >
                     {item}
@@ -159,7 +226,10 @@ export default async function BlogArchivePage({
             ))}
             {currentPage < totalPages && (
               <PaginationItem>
-                <PaginationNext lng={locale} href={`/blog?page=${currentPage + 1}`} />
+                <PaginationNext
+                  lng={locale}
+                  href={`/blog?page=${currentPage + 1}${sortParam ? `&sort=${sortParam}` : ''}`}
+                />
               </PaginationItem>
             )}
           </PaginationContent>

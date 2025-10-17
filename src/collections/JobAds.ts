@@ -164,6 +164,15 @@ export const JobAds: CollectionConfig = {
       defaultValue: 'inactive',
     },
     {
+      name: 'form',
+      type: 'relationship',
+      label: {
+        hr: 'Forma',
+        en: 'Form',
+      },
+      relationTo: 'forms',
+    },
+    {
       name: 'translated',
       type: 'checkbox',
       label: {

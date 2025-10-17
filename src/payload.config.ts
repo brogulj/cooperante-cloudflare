@@ -84,6 +84,36 @@ export default buildConfig({
         console.log(c)
         return c
       },
+      formOverrides: {
+        fields: ({ defaultFields }) => [
+          ...defaultFields,
+          {
+            name: 'privacyPolicy',
+            type: 'checkbox',
+            label: 'I agree with the privacy policy',
+          },
+          {
+            name: 'contact',
+            type: 'checkbox',
+            label: 'I want to be contacted by the company',
+          },
+          {
+            name: 'newsletter',
+            type: 'checkbox',
+            label: 'I want to receive the newsletter',
+          },
+          {
+            name: 'marketing',
+            type: 'checkbox',
+            label: 'I want to receive marketing materials',
+          },
+          {
+            name: 'termsAndConditions',
+            type: 'checkbox',
+            label: 'I agree with the terms and conditions',
+          },
+        ],
+      },
     }),
   ],
   localization: {

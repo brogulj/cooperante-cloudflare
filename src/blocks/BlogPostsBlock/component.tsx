@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
-import { BlogPost, BlogPostsBlock as BlogPostsBlockProps, Media } from '@/payload-types'
+import { BlogPost, BlogPostsBlock as BlogPostsBlockProps, Category, Media } from '@/payload-types'
 import { buttonVariants } from '@/components/ui/button'
 import { getLatestBlogPosts } from './server-actions'
 import { LinkBase } from '@/components/ui/locale-link'
@@ -68,7 +68,13 @@ export const BlogPostsBlock: React.FC<BlogPostsBlockProps> = (props) => {
                           {new Date(post.publishedAt).toLocaleDateString().replaceAll('/', '. ')}.
                         </div>
                       )}
-
+                      {Array.isArray(post.categories) && post.categories.length > 0 && (
+                        <div className="text-sm text-muted-foreground">
+                          {post.categories
+                            .map((category: number | Category) => (category as Category).name)
+                            .join(', ')}
+                        </div>
+                      )}
                       {post.excerpt && <div className="text-sm">{post.excerpt}</div>}
                       {href && (
                         <div className="mt-auto flex justify-end">

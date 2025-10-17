@@ -54,7 +54,12 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
           (Array.isArray(logos) && logos.length > 0) ? (
             <div className="mt-10 lg:mt-0 lg:ml-auto flex flex-col justify-end">
               {Array.isArray(stats) && stats.length > 0 && (
-                <ul className="flex mt-0 gap-10 justify-evenly md:justify-start lg:flex-row lg:justify-end">
+                <ul
+                  className={cn(
+                    'flex mt-0 justify-between md:gap-10 md:justify-start lg:flex-row lg:justify-end',
+                    Array.isArray(logos) && logos.length > 0 ? '' : 'mb-20',
+                  )}
+                >
                   {stats.map(({ stat }, i) => {
                     return (
                       <li key={i} className="flex flex-col gap-2 items-center">

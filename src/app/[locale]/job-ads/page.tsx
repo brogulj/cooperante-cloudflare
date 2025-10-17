@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import { AppLocale } from '@/app/i18n/settings'
@@ -17,7 +16,7 @@ import getT from '@/app/i18n'
 import { Button } from '@/components/ui/button'
 import { LinkBase } from '@/components/ui/locale-link'
 
-type SearchParams = Promise<{ page?: string }>
+type SearchParams = Promise<{ page?: string; employmentType?: string; sort?: string }>
 
 export default async function JobAdsArchivePage({
   params,
@@ -27,20 +26,34 @@ export default async function JobAdsArchivePage({
   searchParams: SearchParams
 }) {
   const { locale } = await params
-  const { page: pageParam } = await searchParams
+  const {
+    page: pageParam,
+    employmentType: employmentTypeParam,
+    sort: sortParam,
+  } = await searchParams
   const { t } = await getT('common')
   const page = Math.max(1, Number(pageParam) || 1)
   const limit = 9
 
   const payload = await getPayload({ config: configPromise })
 
+  // Build where clause with optional employment type filter
+  const whereClause: Record<string, unknown> = {
+    status: { equals: 'active' },
+  }
+
+  if (employmentTypeParam) {
+    whereClause.employmentType = { equals: employmentTypeParam }
+  }
+
+  // Determine sort order (default is descending by creation time)
+  const sortOrder = sortParam === 'asc' ? 'createdAt' : '-createdAt'
+
   const result = await payload.find({
     collection: 'jobAds',
     locale: locale as AppLocale,
-    where: {
-      status: { equals: 'active' },
-    },
-    sort: '-createdAt',
+    where: whereClause,
+    sort: sortOrder,
     depth: 0,
     limit,
     page,
@@ -74,6 +87,91 @@ export default async function JobAdsArchivePage({
   return (
     <div className="max-w-none lg:max-w-4xl xl:max-w-5xl mx-auto px-4 py-12">
       <h1 className="text-3xl font-bold mb-8 lg:text-4xl">{t('jobAds')}</h1>
+
+      {/* Filter and Sort Controls */}
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
+          {/* Employment Type Filter */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium">{t('employmentType')}</label>
+            <div className="flex gap-2 flex-row flex-wrap">
+              <LinkBase
+                lng={locale}
+                href="/job-ads"
+                className={`px-3 py-2 border rounded-md text-sm transition-colors ${
+                  !employmentTypeParam
+                    ? 'border-blue-500 bg-blue-50 text-blue-700'
+                    : 'border-gray-300 hover:border-gray-400'
+                }`}
+              >
+                {t('employmentTypeOptions.all')}
+              </LinkBase>
+              <LinkBase
+                lng={locale}
+                href={`/job-ads?employmentType=full_time${sortParam ? `&sort=${sortParam}` : ''}`}
+                className={`px-3 py-2 border rounded-md text-sm transition-colors ${
+                  employmentTypeParam === 'full_time'
+                    ? 'border-blue-500 bg-blue-50 text-blue-700'
+                    : 'border-gray-300 hover:border-gray-400'
+                }`}
+              >
+                {t('employmentTypeOptions.full_time')}
+              </LinkBase>
+              <LinkBase
+                lng={locale}
+                href={`/job-ads?employmentType=seasonal${sortParam ? `&sort=${sortParam}` : ''}`}
+                className={`px-3 py-2 border rounded-md text-sm transition-colors ${
+                  employmentTypeParam === 'seasonal'
+                    ? 'border-blue-500 bg-blue-50 text-blue-700'
+                    : 'border-gray-300 hover:border-gray-400'
+                }`}
+              >
+                {t('employmentTypeOptions.seasonal')}
+              </LinkBase>
+              <LinkBase
+                lng={locale}
+                href={`/job-ads?employmentType=temporary${sortParam ? `&sort=${sortParam}` : ''}`}
+                className={`px-3 py-2 border rounded-md text-sm transition-colors ${
+                  employmentTypeParam === 'temporary'
+                    ? 'border-blue-500 bg-blue-50 text-blue-700'
+                    : 'border-gray-300 hover:border-gray-400'
+                }`}
+              >
+                {t('employmentTypeOptions.temporary')}
+              </LinkBase>
+            </div>
+          </div>
+
+          {/* Sort Order */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium">{t('sortByDate')}</label>
+            <div className="flex gap-2">
+              <LinkBase
+                lng={locale}
+                href={`/job-ads${employmentTypeParam ? `?employmentType=${employmentTypeParam}` : ''}`}
+                className={`px-3 py-2 border rounded-md text-sm transition-colors ${
+                  !sortParam || sortParam === 'desc'
+                    ? 'border-blue-500 bg-blue-50 text-blue-700'
+                    : 'border-gray-300 hover:border-gray-400'
+                }`}
+              >
+                {t('sortByDateOptions.newestFirst')}
+              </LinkBase>
+              <LinkBase
+                lng={locale}
+                href={`/job-ads?sort=asc${employmentTypeParam ? `&employmentType=${employmentTypeParam}` : ''}`}
+                className={`px-3 py-2 border rounded-md text-sm transition-colors ${
+                  sortParam === 'asc'
+                    ? 'border-blue-500 bg-blue-50 text-blue-700'
+                    : 'border-gray-300 hover:border-gray-400'
+                }`}
+              >
+                {t('sortByDateOptions.oldestFirst')}
+              </LinkBase>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {ads.length === 0 ? (
         <p>{t('noJobAdsFound')}</p>
@@ -116,7 +214,10 @@ export default async function JobAdsArchivePage({
           <PaginationContent>
             {currentPage > 1 && (
               <PaginationItem>
-                <PaginationPrevious lng={locale} href={`/job-ads?page=${currentPage - 1}`} />
+                <PaginationPrevious
+                  lng={locale}
+                  href={`/job-ads?page=${currentPage - 1}${employmentTypeParam ? `&employmentType=${employmentTypeParam}` : ''}${sortParam ? `&sort=${sortParam}` : ''}`}
+                />
               </PaginationItem>
             )}
             {pageItems.map((item, idx) => (
@@ -126,7 +227,7 @@ export default async function JobAdsArchivePage({
                 ) : (
                   <PaginationLink
                     lng={locale}
-                    href={`/job-ads?page=${item}`}
+                    href={`/job-ads?page=${item}${employmentTypeParam ? `&employmentType=${employmentTypeParam}` : ''}${sortParam ? `&sort=${sortParam}` : ''}`}
                     isActive={item === currentPage}
                   >
                     {item}
@@ -136,12 +237,24 @@ export default async function JobAdsArchivePage({
             ))}
             {currentPage < totalPages && (
               <PaginationItem>
-                <PaginationNext lng={locale} href={`/job-ads?page=${currentPage + 1}`} />
+                <PaginationNext
+                  lng={locale}
+                  href={`/job-ads?page=${currentPage + 1}${employmentTypeParam ? `&employmentType=${employmentTypeParam}` : ''}${sortParam ? `&sort=${sortParam}` : ''}`}
+                />
               </PaginationItem>
             )}
           </PaginationContent>
         </Pagination>
       )}
+
+      {/* Candidate Pool CTA */}
+      <div className="mt-16  border border-border rounded-lg p-8 text-center">
+        <h2 className="text-2xl font-bold mb-3">{t('candidatePoolCTA.title')}</h2>
+        <p className="text-muted-foreground mb-6">{t('candidatePoolCTA.description')}</p>
+        <LinkBase lng={locale} href="/kontakt-za-radnike" className="inline-block">
+          <Button>{t('candidatePoolCTA.button')}</Button>
+        </LinkBase>
+      </div>
     </div>
   )
 }
