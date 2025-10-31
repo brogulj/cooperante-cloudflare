@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
+import brickLogo from './logo3.png'
 import { CMSLink } from '@/components/frontend/link'
 import { Separator } from '@/components/ui/separator'
 import { Footer as FooterType, Media } from '@/payload-types'
@@ -180,17 +181,18 @@ export const Footer = ({ footer }: { footer: FooterType }) => {
               {footer.copyright || `© ${new Date().getFullYear()}`}
             </span>
           </span>
-          <span>
+          <div className="flex items-center gap-2">
             Powered by{' '}
             <a
               href="https://brick.com.hr"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline"
+              className="underline flex items-center gap-2"
             >
               Brick Software
+              <img src={brickLogo.src} alt="Brick Software" className="h-6 w-auto" />
             </a>
-          </span>
+          </div>
         </div>
       </div>
     </footer>

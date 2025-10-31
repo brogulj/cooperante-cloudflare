@@ -1,5 +1,6 @@
 import { authenticated } from '@/access/authenticated'
 import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
+import { CTABlock } from '@/blocks/CTABlock/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
 import { slugField } from '@/fields/slug'
@@ -29,6 +30,11 @@ export const BlogPosts: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
+    components: {
+      edit: {
+        beforeDocumentControls: ['@/collections/BlogPosts/components/edit#Translate'],
+      },
+    },
   },
   fields: [
     {
@@ -79,7 +85,7 @@ export const BlogPosts: CollectionConfig = {
           return [
             ...rootFeatures,
             HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
-            BlocksFeature({ blocks: [MediaBlock, FormBlock] }),
+            BlocksFeature({ blocks: [MediaBlock, CTABlock] }),
             FixedToolbarFeature(),
             InlineToolbarFeature(),
             HorizontalRuleFeature(),

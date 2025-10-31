@@ -15,6 +15,7 @@ import {
 import type { MediaBlock as MediaBlockProps } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 import { FormBlock } from '@/blocks/Form/component'
+import { CTABlock } from '@/blocks/CTABlock/component'
 
 type NodeTypes = DefaultNodeTypes | SerializedBlockNode<MediaBlockProps>
 
@@ -64,6 +65,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
       />
     ),
     FormBlock: ({ node }: { node: any }) => <FormBlock {...node.fields} />,
+    CTABlock: ({ node }: { node: any }) => <CTABlock {...node.fields} />,
   },
 })
 
@@ -71,13 +73,22 @@ type Props = {
   data: DefaultTypedEditorState
   enableGutter?: boolean
   enableProse?: boolean
+  withoutWrapper?: boolean
 } & React.HTMLAttributes<HTMLDivElement>
 
 export default function RichText(props: Props) {
-  const { className, enableProse = true, enableGutter = true, ...rest } = props
+  const {
+    className,
+    enableProse = true,
+    enableGutter = true,
+    withoutWrapper = false,
+    ...rest
+  } = props
+
   return (
     <ConvertRichText
       converters={jsxConverters}
+      disableContainer={withoutWrapper}
       className={cn('payload-richtext', className)}
       {...rest}
     />

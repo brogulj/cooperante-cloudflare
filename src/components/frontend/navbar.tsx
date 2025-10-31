@@ -11,11 +11,30 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { ChevronDownIcon, MenuIcon } from 'lucide-react'
+import { ChevronDownIcon, MenuIcon, Globe } from 'lucide-react'
 import Link from 'next/link'
+import { useParams, usePathname } from 'next/navigation'
+import { languagesList, fallbackLng } from '@/app/i18n/settings'
+import type { AppLocale } from '@/app/i18n/settings'
+
+// Only show supported locales
+const supportedLocales: AppLocale[] = ['hr', 'en', 'es', 'de', 'pl', 'pt', 'uk', 'ru', 'fr', 'it']
 
 export const Navbar = ({ navbar }: { navbar: NavbarType }) => {
   const links = navbar.links || []
+  const params = useParams()
+  const pathname = usePathname()
+  const currentLocale = (params.locale as string) || 'hr'
+
+  const getLanguageUrl = (newLocale: string) => {
+    // Replace the current locale in the pathname with the new locale
+    const pathWithoutLocale = pathname.replace(`/${currentLocale}`, '') || '/'
+    // If switching to default language, don't prefix with locale
+    if (newLocale === fallbackLng) {
+      return pathWithoutLocale
+    }
+    return `/${newLocale}${pathWithoutLocale}`
+  }
 
   return (
     <header className="border-b bg-background fixed top-0 left-0 right-0 z-50 h-[62px]">
@@ -86,8 +105,57 @@ export const Navbar = ({ navbar }: { navbar: NavbarType }) => {
           })}
         </nav>
 
+        {/* Language Selector - Desktop */}
+        <div className="hidden md:flex items-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="gap-2">
+                <span className="text-xl">
+                  {languagesList[currentLocale as keyof typeof languagesList]?.flag}{' '}
+                </span>
+                <ChevronDownIcon className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              {supportedLocales.map((lang) => {
+                const langInfo = languagesList[lang as keyof typeof languagesList]
+                return (
+                  <DropdownMenuItem key={lang} asChild>
+                    <Link href={getLanguageUrl(lang)} className="w-full cursor-pointer">
+                      <span className="mr-2">{langInfo?.flag}</span>
+                      {langInfo?.name}
+                    </Link>
+                  </DropdownMenuItem>
+                )
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
         {/* Mobile hamburger */}
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-2">
+          {/* Language Selector - Mobile */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="Select language">
+                <Globe className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              {supportedLocales.map((lang) => {
+                const langInfo = languagesList[lang as keyof typeof languagesList]
+                return (
+                  <DropdownMenuItem key={lang} asChild>
+                    <Link href={getLanguageUrl(lang)} className="w-full cursor-pointer">
+                      <span className="mr-2">{langInfo?.flag}</span>
+                      {langInfo?.name}
+                    </Link>
+                  </DropdownMenuItem>
+                )
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" aria-label="Open menu">

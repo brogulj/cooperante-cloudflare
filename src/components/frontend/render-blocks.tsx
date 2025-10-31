@@ -18,6 +18,10 @@ import { Page } from '@/payload-types'
 import React from 'react'
 import { ContactBlock } from '@/blocks/ContactBlock/component'
 import { RichTextBlock } from '@/blocks/RichTextBlock/component'
+import { AboutUsBlock } from '@/blocks/AboutUsBlock/component'
+import { ImageBlock } from '@/blocks/ImageBlock/component'
+import { PortalBlock } from '@/blocks/PortalBlock/component'
+import { CSVTableBlock } from '@/blocks/CSVTableBlock/component'
 
 type Block = NonNullable<Page['content']>[number]
 
@@ -46,6 +50,10 @@ type BlockComponentMap = {
   BlogPostsBlock: React.ComponentType<any>
   ContactBlock: React.ComponentType<Extract<Block, { blockType: 'ContactBlock' }>>
   RichTextBlock: React.ComponentType<Extract<Block, { blockType: 'RichTextBlock' }>>
+  AboutUsBlock: React.ComponentType<Extract<Block, { blockType: 'AboutUsBlock' }>>
+  ImageBlock: React.ComponentType<Extract<Block, { blockType: 'ImageBlock' }>>
+  PortalBlock: React.ComponentType<Extract<Block, { blockType: 'PortalBlock' }>>
+  CSVTableBlock: React.ComponentType<Extract<Block, { blockType: 'CSVTableBlock' }>>
 }
 
 const blockComponents: BlockComponentMap = {
@@ -67,6 +75,10 @@ const blockComponents: BlockComponentMap = {
   BlogPostsBlock: BlogPostsBlock,
   ContactBlock: ContactBlock,
   RichTextBlock: RichTextBlock,
+  AboutUsBlock: AboutUsBlock,
+  ImageBlock: ImageBlock,
+  PortalBlock: PortalBlock,
+  CSVTableBlock: CSVTableBlock,
 }
 
 export const RenderBlocks: React.FC<{ blocks?: Page['content'] }> = ({ blocks }) => {
@@ -152,6 +164,16 @@ export const RenderBlocks: React.FC<{ blocks?: Page['content'] }> = ({ blocks })
           case 'RichTextBlock':
             return (
               <blockComponents.RichTextBlock key={block.id ?? `RichTextBlock-${i}`} {...block} />
+            )
+          case 'AboutUsBlock':
+            return <blockComponents.AboutUsBlock key={block.id ?? `AboutUsBlock-${i}`} {...block} />
+          case 'ImageBlock':
+            return <blockComponents.ImageBlock key={block.id ?? `ImageBlock-${i}`} {...block} />
+          case 'PortalBlock':
+            return <blockComponents.PortalBlock key={block.id ?? `PortalBlock-${i}`} {...block} />
+          case 'CSVTableBlock':
+            return (
+              <blockComponents.CSVTableBlock key={block.id ?? `CSVTableBlock-${i}`} {...block} />
             )
           default:
             return null

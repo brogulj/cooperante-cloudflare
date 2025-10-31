@@ -1,4 +1,4 @@
-import type { Field, GroupField } from 'payload'
+import type { Field, FieldHook, GroupField } from 'payload'
 
 import deepMerge from '@/utilities/deepMerge'
 
@@ -31,6 +31,20 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
     type: 'group',
     admin: {
       hideGutter: true,
+    },
+    hooks: {
+      beforeChange: [
+        ({ value }) => {
+          if (value.type === 'custom') {
+            return {
+              ...value,
+              reference: null,
+            }
+          }
+
+          return value
+        },
+      ],
     },
     fields: [
       {

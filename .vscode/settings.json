@@ -38,5 +38,6 @@
     }
   },
   "kiroAgent.configureMCP": "Disabled",
-  "i18n-ally.localesPaths": ["src/locales", "src/app/i18n"]
+  "i18n-ally.localesPaths": ["src/locales", "src/app/i18n"],
+  "i18n-ally.keystyle": "nested"
 }

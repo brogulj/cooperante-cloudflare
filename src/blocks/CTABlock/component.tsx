@@ -27,7 +27,7 @@ export const CTABlock: React.FC<CTABlockType> = (block) => {
           </CardDescription>
           <ul className="flex gap-4 flex-col sm:flex-row mt-4 justify-center">
             {links.map(({ link }, i) => (
-              <li key={i} className="flex-1 sm:flex-none">
+              <li key={i} className="flex-1 sm:flex-none list-none">
                 <CMSLink {...link} className="w-full sm:w-auto" size="lg" />
               </li>
             ))}

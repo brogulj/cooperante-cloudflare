@@ -18,6 +18,14 @@ import * as migration_20251016_153629 from './20251016_153629';
 import * as migration_20251016_233727 from './20251016_233727';
 import * as migration_20251017_165819 from './20251017_165819';
 import * as migration_20251017_173228 from './20251017_173228';
+import * as migration_20251021_105928 from './20251021_105928';
+import * as migration_20251022_175151 from './20251022_175151';
+import * as migration_20251022_195807 from './20251022_195807';
+import * as migration_20251022_201145 from './20251022_201145';
+import * as migration_20251027_180417 from './20251027_180417';
+import * as migration_20251029_164151 from './20251029_164151';
+import * as migration_20251029_192459 from './20251029_192459';
+import * as migration_20251031_014156 from './20251031_014156';
 
 export const migrations = [
   {
@@ -118,6 +126,46 @@ export const migrations = [
   {
     up: migration_20251017_173228.up,
     down: migration_20251017_173228.down,
-    name: '20251017_173228'
+    name: '20251017_173228',
+  },
+  {
+    up: migration_20251021_105928.up,
+    down: migration_20251021_105928.down,
+    name: '20251021_105928',
+  },
+  {
+    up: migration_20251022_175151.up,
+    down: migration_20251022_175151.down,
+    name: '20251022_175151',
+  },
+  {
+    up: migration_20251022_195807.up,
+    down: migration_20251022_195807.down,
+    name: '20251022_195807',
+  },
+  {
+    up: migration_20251022_201145.up,
+    down: migration_20251022_201145.down,
+    name: '20251022_201145',
+  },
+  {
+    up: migration_20251027_180417.up,
+    down: migration_20251027_180417.down,
+    name: '20251027_180417',
+  },
+  {
+    up: migration_20251029_164151.up,
+    down: migration_20251029_164151.down,
+    name: '20251029_164151',
+  },
+  {
+    up: migration_20251029_192459.up,
+    down: migration_20251029_192459.down,
+    name: '20251029_192459',
+  },
+  {
+    up: migration_20251031_014156.up,
+    down: migration_20251031_014156.down,
+    name: '20251031_014156'
   },
 ];

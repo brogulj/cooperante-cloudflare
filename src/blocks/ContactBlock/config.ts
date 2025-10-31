@@ -91,6 +91,18 @@ export const ContactBlock: Block = {
           ],
         },
         {
+          name: 'workingHours',
+          type: 'array',
+          label: 'Working Hours',
+          fields: [
+            {
+              name: 'hours',
+              type: 'text',
+              label: 'Hours',
+            },
+          ],
+        },
+        {
           name: 'mapEmbedUrl',
           type: 'text',
           label: 'Map Embed URL',

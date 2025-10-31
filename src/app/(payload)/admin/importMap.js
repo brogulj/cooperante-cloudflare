@@ -17,6 +17,9 @@ import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c08
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
+import { Translate as Translate_104330d85c1014ff5ed3cea1a3752c70 } from '@/collections/Pages/components/edit'
+import { Translate as Translate_b686d723e1b2de63b5ba789414305dbd } from '@/collections/JobAds/components/edit'
+import { Translate as Translate_86ba69933dc01f17e1489b98bdac7713 } from '@/collections/BlogPosts/components/edit'
 
 export const importMap = {
   "@/fields/slug/SlugComponent#SlugComponent": SlugComponent_92cc057d0a2abb4f6cf0307edf59f986,
@@ -37,5 +40,8 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860
+  "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  "@/collections/Pages/components/edit#Translate": Translate_104330d85c1014ff5ed3cea1a3752c70,
+  "@/collections/JobAds/components/edit#Translate": Translate_b686d723e1b2de63b5ba789414305dbd,
+  "@/collections/BlogPosts/components/edit#Translate": Translate_86ba69933dc01f17e1489b98bdac7713
 }

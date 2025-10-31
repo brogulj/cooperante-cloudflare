@@ -18,6 +18,16 @@ import { LinkBase } from '@/components/ui/locale-link'
 
 type SearchParams = Promise<{ page?: string; employmentType?: string; sort?: string }>
 
+export const generateMetadata = async ({ params }: { params: Promise<{ locale: string }> }) => {
+  const { locale } = await params
+  const payload = await getPayload({ config: configPromise })
+  const page = await payload.find({ collection: 'pages', where: { slug: { equals: 'job-ads' } } })
+  return {
+    title: page.docs[0].meta?.title,
+    description: page.docs[0].meta?.description,
+  }
+}
+
 export default async function JobAdsArchivePage({
   params,
   searchParams,

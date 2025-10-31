@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { ContactBlock as ContactBlockType, Form, Media } from '@/payload-types'
 import {
+  ClockIcon,
   FacebookIcon,
   InstagramIcon,
   LinkedinIcon,
@@ -76,6 +77,13 @@ export const ContactBlock: React.FC<ContactBlockType> = (block) => {
                 </a>
               </div>
             ))}
+            {contactInformation?.workingHours?.map((workingHour) => (
+              <div key={workingHour.id}>
+                <p className="text-lg text-foreground flex flex-row items-center gap-2">
+                  <ClockIcon className="h-4 w-4 xl:h-5 xl:w-5" /> <span>{workingHour.hours}</span>
+                </p>
+              </div>
+            ))}
           </div>
           <div className="flex flex-row gap-4 mt-8">
             {contactInformation?.socials?.map((social) => (
@@ -110,7 +118,7 @@ export const ContactBlock: React.FC<ContactBlockType> = (block) => {
                   alt={(client.client as Media)?.alt}
                   width={100}
                   height={100}
-                  className="invert-100 grayscale"
+                  className="brightness-0"
                 />
               </div>
             ))}

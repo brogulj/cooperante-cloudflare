@@ -202,6 +202,10 @@ export interface Page {
         | BlogPostsBlock
         | ContactBlock
         | RichTextBlock
+        | AboutUsBlock
+        | ImageBlock
+        | PortalBlock
+        | CSVTableBlock
       )[]
     | null;
   meta?: {
@@ -942,6 +946,12 @@ export interface ContactBlock {
           id?: string | null;
         }[]
       | null;
+    workingHours?:
+      | {
+          hours?: string | null;
+          id?: string | null;
+        }[]
+      | null;
     mapEmbedUrl?: string | null;
   };
   form: number | Form;
@@ -985,6 +995,151 @@ export interface RichTextBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'RichTextBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutUsBlock".
+ */
+export interface AboutUsBlock {
+  backgroundImage?: (number | null) | Media;
+  title?: string | null;
+  subtitle?: string | null;
+  firstText?: string | null;
+  stats?:
+    | {
+        value?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  story?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  people?:
+    | {
+        name?: string | null;
+        title?: string | null;
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  values?: {
+    title?: string | null;
+    valuesList?:
+      | {
+          title?: string | null;
+          description?: string | null;
+          icon?: (number | null) | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  missionAndVision?: {
+    mission?: {
+      title?: string | null;
+      description?: string | null;
+    };
+    vision?: {
+      title?: string | null;
+      description?: string | null;
+    };
+  };
+  howWeWork?: {
+    title?: string | null;
+    steps?:
+      | {
+          title?: string | null;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  partnershipModels?: {
+    title?: string | null;
+    models?:
+      | {
+          title?: string | null;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  ourTeam?: {
+    title?: string | null;
+    members?:
+      | {
+          name?: string | null;
+          image?: (number | null) | Media;
+          title?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  certificatesTitle?: string | null;
+  certificates?:
+    | {
+        certificateImage?: (number | null) | Media;
+        certificateTitle?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'AboutUsBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageBlock".
+ */
+export interface ImageBlock {
+  image: number | Media;
+  caption?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'ImageBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PortalBlock".
+ */
+export interface PortalBlock {
+  title: string;
+  subtitle: string;
+  list?:
+    | {
+        title: string;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  image: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'PortalBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CSVTableBlock".
+ */
+export interface CSVTableBlock {
+  title: string;
+  dark?: boolean | null;
+  csv: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'CSVTableBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1174,6 +1329,10 @@ export interface PagesSelect<T extends boolean = true> {
         BlogPostsBlock?: T | BlogPostsBlockSelect<T>;
         ContactBlock?: T | ContactBlockSelect<T>;
         RichTextBlock?: T | RichTextBlockSelect<T>;
+        AboutUsBlock?: T | AboutUsBlockSelect<T>;
+        ImageBlock?: T | ImageBlockSelect<T>;
+        PortalBlock?: T | PortalBlockSelect<T>;
+        CSVTableBlock?: T | CSVTableBlockSelect<T>;
       };
   meta?:
     | T
@@ -1593,6 +1752,12 @@ export interface ContactBlockSelect<T extends boolean = true> {
               socialLink?: T;
               id?: T;
             };
+        workingHours?:
+          | T
+          | {
+              hours?: T;
+              id?: T;
+            };
         mapEmbedUrl?: T;
       };
   form?: T;
@@ -1618,6 +1783,147 @@ export interface ContactBlockSelect<T extends boolean = true> {
  */
 export interface RichTextBlockSelect<T extends boolean = true> {
   content?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutUsBlock_select".
+ */
+export interface AboutUsBlockSelect<T extends boolean = true> {
+  backgroundImage?: T;
+  title?: T;
+  subtitle?: T;
+  firstText?: T;
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  story?: T;
+  people?:
+    | T
+    | {
+        name?: T;
+        title?: T;
+        image?: T;
+        id?: T;
+      };
+  values?:
+    | T
+    | {
+        title?: T;
+        valuesList?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              icon?: T;
+              id?: T;
+            };
+      };
+  missionAndVision?:
+    | T
+    | {
+        mission?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+            };
+        vision?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+            };
+      };
+  howWeWork?:
+    | T
+    | {
+        title?: T;
+        steps?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+      };
+  partnershipModels?:
+    | T
+    | {
+        title?: T;
+        models?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+      };
+  ourTeam?:
+    | T
+    | {
+        title?: T;
+        members?:
+          | T
+          | {
+              name?: T;
+              image?: T;
+              title?: T;
+              id?: T;
+            };
+      };
+  certificatesTitle?: T;
+  certificates?:
+    | T
+    | {
+        certificateImage?: T;
+        certificateTitle?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageBlock_select".
+ */
+export interface ImageBlockSelect<T extends boolean = true> {
+  image?: T;
+  caption?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PortalBlock_select".
+ */
+export interface PortalBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  list?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        id?: T;
+      };
+  image?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CSVTableBlock_select".
+ */
+export interface CSVTableBlockSelect<T extends boolean = true> {
+  title?: T;
+  dark?: T;
+  csv?: T;
   id?: T;
   blockName?: T;
 }

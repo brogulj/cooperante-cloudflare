@@ -2,7 +2,7 @@
 import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-builder/types'
 
 import { useRouter } from 'next/navigation'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
@@ -53,9 +53,20 @@ export const FormBlock: React.FC<
   const [hasSubmitted, setHasSubmitted] = useState<boolean>()
   const [error, setError] = useState<{ message: string; status?: string } | undefined>()
   const router = useRouter()
+  const [ipAddress, setIpAddress] = useState<string | undefined>()
+  useEffect(() => {
+    void fetch('https://api.ipify.org?format=json')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && typeof (data as { ip: string } & { status: number }).ip === 'string') {
+          setIpAddress((data as { ip: string } & { status: number }).ip)
+        }
+      })
+      .catch((err) => console.error(err))
+  }, [])
 
   const onSubmit = useCallback(
-    (data: FormFieldBlock[]) => {
+    (data: { [key: string]: any }) => {
       let loadingTimerID: ReturnType<typeof setTimeout>
       const submitForm = async () => {
         setError(undefined)
@@ -64,6 +75,77 @@ export const FormBlock: React.FC<
           field: name,
           value,
         }))
+
+        if (
+          formFromProps.privacyPolicy &&
+          !dataToSend.find((item) => item.field === 'privacyPolicy')
+        ) {
+          setError({
+            message: 'You must agree to the privacy policy',
+            status: '400',
+          })
+          return
+        } else if (formFromProps.contact) {
+          let agreement = ''
+          agreement += `ID: ${'PRIVOLA-PROFILING-' + formID + '-' + Date.now()};`
+          agreement += `Date and Time: ${new Date().toISOString()};`
+          agreement += `IP Address: ${ipAddress};`
+          agreement += `User Agent: ${navigator.userAgent};`
+          agreement += `Channel: web;`
+          agreement += `Status: active;`
+          agreement += `Agreement: ${dataToSend.find((item) => item.field === 'privacyPolicy')?.value ? 'Accepted' : 'Rejected'};`
+          agreement += 'Agreement for Profiling;'
+
+          dataToSend.push({
+            field: 'agreementForProfiling',
+            value: agreement,
+          })
+        }
+
+        if (formFromProps.marketing && !dataToSend.find((item) => item.field === 'marketing')) {
+          setError({
+            message: 'You must agree to the privacy policy',
+            status: '400',
+          })
+          return
+        } else if (formFromProps.contact) {
+          let agreement = ''
+          agreement += `ID: ${'PRIVOLA-MARKETING-' + formID + '-' + Date.now()};`
+          agreement += `Date and Time: ${new Date().toISOString()};`
+          agreement += `IP Address: ${ipAddress};`
+          agreement += `User Agent: ${navigator.userAgent};`
+          agreement += `Channel: web;`
+          agreement += `Status: active;`
+          agreement += `Agreement: ${dataToSend.find((item) => item.field === 'marketing')?.value ? 'Accepted' : 'Rejected'};`
+          agreement += 'Agreement for Marketing;'
+
+          dataToSend.push({
+            field: 'agreementForMarketing',
+            value: agreement,
+          })
+        }
+        if (formFromProps.contact && !dataToSend.find((item) => item.field === 'contact')) {
+          setError({
+            message: 'You must agree to the privacy policy',
+            status: '400',
+          })
+          return
+        } else if (formFromProps.contact) {
+          let agreement = ''
+          agreement += `ID: ${'PRIVOLA-CONTACT-' + formID + '-' + Date.now()};`
+          agreement += `Date and Time: ${new Date().toISOString()};`
+          agreement += `IP Address: ${ipAddress};`
+          agreement += `User Agent: ${navigator.userAgent};`
+          agreement += `Channel: web;`
+          agreement += `Status: active;`
+          agreement += `Agreement: ${dataToSend.find((item) => item.field === 'privacyPolicy')?.value ? 'Accepted' : 'Rejected'};`
+          agreement += 'Agreement for Contact;'
+
+          dataToSend.push({
+            field: 'agreementForContact',
+            value: agreement,
+          })
+        }
 
         // delay loading indicator by 1s
         loadingTimerID = setTimeout(() => {

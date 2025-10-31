@@ -1,5 +1,6 @@
 import { Block } from 'payload'
 import {
+  BlocksFeature,
   FixedToolbarFeature,
   HeadingFeature,
   HorizontalRuleFeature,
@@ -7,6 +8,8 @@ import {
   lexicalEditor,
   ParagraphFeature,
 } from '@payloadcms/richtext-lexical'
+import { CTABlock } from '../CTABlock/config'
+import { MediaBlock } from '../MediaBlock/config'
 
 export const RichTextBlock: Block = {
   slug: 'RichTextBlock',
@@ -15,6 +18,7 @@ export const RichTextBlock: Block = {
     {
       name: 'content',
       type: 'richText',
+      localized: true,
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
           return [
@@ -24,6 +28,7 @@ export const RichTextBlock: Block = {
             FixedToolbarFeature(),
             InlineToolbarFeature(),
             HorizontalRuleFeature(),
+            BlocksFeature({ blocks: [MediaBlock, CTABlock] }),
           ]
         },
       }),

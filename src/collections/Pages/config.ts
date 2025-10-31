@@ -20,6 +20,10 @@ import { IndustriesGlobeBlock } from '@/blocks/IndustriesGlobeBlock/config'
 import { BlogPostsBlock } from '@/blocks/BlogPostsBlock/config'
 import { ContactBlock } from '@/blocks/ContactBlock/config'
 import { RichTextBlock } from '@/blocks/RichTextBlock/config'
+import { AboutUsBlock } from '@/blocks/AboutUsBlock/config'
+import { ImageBlock } from '@/blocks/ImageBlock/config'
+import { PortalBlock } from '@/blocks/PortalBlock/config'
+import { CSVTableBlock } from '@/blocks/CSVTableBlock/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -35,6 +39,11 @@ export const Pages: CollectionConfig<'pages'> = {
   },
   admin: {
     useAsTitle: 'title',
+    components: {
+      edit: {
+        beforeDocumentControls: ['@/collections/Pages/components/edit#Translate'],
+      },
+    },
   },
   access: {
     create: authenticated,
@@ -79,6 +88,10 @@ export const Pages: CollectionConfig<'pages'> = {
         BlogPostsBlock,
         ContactBlock,
         RichTextBlock,
+        AboutUsBlock,
+        ImageBlock,
+        PortalBlock,
+        CSVTableBlock,
       ],
     },
   ],

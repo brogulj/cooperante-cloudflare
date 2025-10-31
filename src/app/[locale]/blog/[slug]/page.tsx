@@ -8,6 +8,26 @@ import { Category, User } from '@/payload-types'
 import Link from 'next/link'
 import getT from '@/app/i18n'
 
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>
+}) => {
+  const { locale, slug } = await params
+  if (!slug) {
+    return { title: 'Blog', description: 'Blog' }
+  }
+  const payloadConfig = await configPromise
+  const payload = await getPayload({ config: payloadConfig })
+  const blogPost = await payload.find({
+    collection: 'blogPosts',
+    where: { slug: { equals: slug } },
+    locale: locale as AppLocale,
+  })
+
+  return { title: blogPost.docs[0].title, description: blogPost.docs[0].excerpt }
+}
+
 export default async function BlogPostPage({
   params,
 }: {

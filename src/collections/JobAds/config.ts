@@ -47,11 +47,11 @@ export const JobAds: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    // components: {
-    //   edit: {
-    //     beforeDocumentControls: ['@/collections/JobAds/components/edit#Translate'],
-    //   },
-    // },
+    components: {
+      edit: {
+        beforeDocumentControls: ['@/collections/JobAds/components/edit#Translate'],
+      },
+    },
   },
   defaultPopulate: {
     title: true,

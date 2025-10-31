@@ -45,7 +45,6 @@ export const LanderHero: Block = {
           en: 'Links',
           hr: 'Linkovi',
         },
-        localized: true,
       },
     }),
     {

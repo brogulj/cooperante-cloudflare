@@ -1,8 +1,32 @@
 /* eslint-disable @next/next/no-img-element */
+'use client'
 import { Media, WorkersTestimonialsBlock as WorkersTestimonialsBlockProps } from '@/payload-types'
 import { StarIcon } from 'lucide-react'
 
-import React from 'react'
+import React, { useState } from 'react'
+
+const CHAR_LIMIT = 150
+
+const TestimonialText: React.FC<{ text: string }> = ({ text }) => {
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const isLong = text.length > CHAR_LIMIT
+  const displayText = isExpanded ? text : text.slice(0, CHAR_LIMIT) + (isLong ? '...' : '')
+
+  return (
+    <div className="flex flex-col gap-3">
+      <p className="text-lg text-foreground">{displayText}</p>
+      {isLong && (
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="text-sm font-semibold text-primary hover:opacity-80 transition-opacity w-fit"
+        >
+          {isExpanded ? 'Read Less' : 'Read More'}
+        </button>
+      )}
+    </div>
+  )
+}
 
 export const WorkersTestimonialsBlock: React.FC<WorkersTestimonialsBlockProps> = (props) => {
   const { title, subtitle, testimonials } = props
@@ -58,7 +82,7 @@ export const WorkersTestimonialsBlock: React.FC<WorkersTestimonialsBlockProps> =
                     />
                   ))}
                 </div>
-                <p className="text-lg text-foreground">{testimonial.testimonial}</p>
+                <TestimonialText text={testimonial.testimonial} />
               </div>
             </div>
           </div>
