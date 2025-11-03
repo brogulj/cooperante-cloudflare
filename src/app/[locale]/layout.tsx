@@ -30,6 +30,9 @@ export default async function RootLayout(props: {
 
   return (
     <html className={`${GeistSans.variable} ${GeistMono.variable}`}>
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body className={`min-h-screen flex flex-col ${GeistSans.className}`}>
         <Navbar navbar={navbar} />
         <main className="flex-1 mt-[62px] flex flex-col">{children}</main>
