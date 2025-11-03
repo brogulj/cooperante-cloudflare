@@ -4,8 +4,9 @@ import { cookieName, fallbackLng, headerName, languages } from './app/i18n/setti
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js|site.webmanifest).*)',
+    '/((?!api|_next/static|_next/image|assets|favicon\.ico|sw\.js|site\.webmanifest).*)',
     '/api/media/file/:path*',
+    '/favicon.ico',
   ],
 }
 

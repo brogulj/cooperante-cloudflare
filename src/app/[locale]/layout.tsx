@@ -31,7 +31,10 @@ export default async function RootLayout(props: {
   return (
     <html className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className={`min-h-screen flex flex-col ${GeistSans.className}`}>
         <Navbar navbar={navbar} />
