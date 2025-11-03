@@ -1,9 +1,12 @@
+'use client'
+
 import { Button, type ButtonProps } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
 import Link from 'next/link'
 import React from 'react'
 
 import type { Page } from '@/payload-types'
+import { fallbackLng } from '@/app/i18n/settings'
 
 type CMSLinkType = {
   appearance?: 'inline' | ButtonProps['variant']
@@ -19,6 +22,7 @@ type CMSLinkType = {
   type?: 'custom' | 'reference' | null
   url?: string | null
   onClick?: () => void
+  locale?: string
 }
 
 export const CMSLink: React.FC<CMSLinkType> = (props) => {
@@ -33,9 +37,10 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     size: sizeFromProps,
     url,
     onClick,
+    locale,
   } = props
 
-  const href =
+  let href =
     type === 'reference' && typeof reference?.value === 'object' && reference.value.slug
       ? `${reference?.relationTo !== 'pages' ? `/${reference?.relationTo}` : ''}/${
           reference.value.slug
@@ -43,6 +48,10 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
       : url
 
   if (!href) return null
+
+  if (locale && locale !== fallbackLng) {
+    href = `/${locale}${href}`
+  }
 
   const size = sizeFromProps
   const newTabProps = newTab ? { rel: 'noopener noreferrer', target: '_blank' } : {}

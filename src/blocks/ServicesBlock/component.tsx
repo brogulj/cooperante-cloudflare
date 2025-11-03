@@ -1,7 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 import React from 'react'
 import { Media, ServicesBlock as ServicesBlockProps } from '@/payload-types'
 import RichText from '@/components/frontend/richtext'
+import Image from 'next/image'
 
 export const ServicesBlock: React.FC<ServicesBlockProps> = (params) => {
   const { title, subtitle, content, backgroundImage, imageIcons, icons } = params
@@ -14,10 +14,14 @@ export const ServicesBlock: React.FC<ServicesBlockProps> = (params) => {
       </div>
       <div className="h-[50vh] relative sm:h-[40vh] md:h-[50vh] col-span-1 lg:h-full">
         {backgroundImage && typeof backgroundImage === 'object' && (
-          <img
+          <Image
             src={backgroundImage.url}
             alt={title}
             className="w-full h-full object-cover rounded-xl"
+            width={(backgroundImage as Media).width}
+            height={(backgroundImage as Media).height}
+            quality={80}
+            sizes="(max-width: 768px) 80vw, 30vw"
           />
         )}
         <div className="flex flex-row gap-3 absolute bottom-0 left-0 right-0 px-3 pb-3 justify-end">
@@ -26,10 +30,13 @@ export const ServicesBlock: React.FC<ServicesBlockProps> = (params) => {
               key={(icon.icon as Media).url}
               className="flex flex-col items-center justify-center rounded-lg bg-white p-2"
             >
-              <img
+              <Image
                 src={(icon.icon as Media).url}
                 alt={(icon.icon as Media).alt}
-                className="w-12 h-12 object-cover "
+                width={48}
+                height={(48 / (icon.icon as Media).width) * (icon.icon as Media).height}
+                quality={80}
+                className="w-12 h-12 object-cover"
               />
             </div>
           ))}
@@ -38,9 +45,12 @@ export const ServicesBlock: React.FC<ServicesBlockProps> = (params) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:col-span-2">
         {icons?.map((icon, index) => (
           <div key={index} className="flex flex-col border border-border rounded-lg px-6 py-4">
-            <img
+            <Image
               src={(icon.icon as Media).url}
               alt={(icon.icon as Media).alt}
+              width={(icon.icon as Media).width}
+              height={(40 / (icon.icon as Media).width) * (icon.icon as Media).height}
+              quality={80}
               className="w-10 h-10 object-cover mb-2"
             />
             <h3 className="text-xl font-medium mb-2">{icon.title}</h3>

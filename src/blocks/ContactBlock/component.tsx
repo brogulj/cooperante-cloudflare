@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { ContactBlock as ContactBlockType, Form, Media } from '@/payload-types'
 import {
   ClockIcon,
@@ -13,6 +12,7 @@ import {
   YoutubeIcon,
 } from 'lucide-react'
 import { FormBlock, FormBlockType } from '../Form/component'
+import Image from 'next/image'
 
 const SocialIcon = ({ social }: { social: string }) => {
   switch (social.toLocaleLowerCase()) {
@@ -112,13 +112,16 @@ export const ContactBlock: React.FC<ContactBlockType> = (block) => {
           )}
           <div className="mt-6 flex flex-row gap-4 flex-wrap">
             {clients?.map((client) => (
-              <div key={client.id} className="mt-6">
-                <img
+              <div key={client.id} className="mt-6 w-25 h-25">
+                <Image
                   src={(client.client as Media)?.url}
                   alt={(client.client as Media)?.alt}
+                  quality={80}
                   width={100}
-                  height={100}
-                  className="brightness-0"
+                  height={
+                    (100 / (client.client as Media)?.width) * (client.client as Media)?.height
+                  }
+                  className="brightness-0 object-cover"
                 />
               </div>
             ))}

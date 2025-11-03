@@ -36,7 +36,7 @@
     "oldestFirst": "Najstariji prvi"
   },
   "privacyPolicyCheckboxLabel": "Slažem se da Cooperante d.o.o. analizira moje aktivnosti (npr. posjete web-stranici, interakcije s newsletterom) radi izrade personaliziranih preporuka i poboljšanja korisničkog iskustva.",
-  "contactCheckboxLabel": "Suglasan/a sam da Cooperante d.o.o. koristi moje osobne podatke navedene u obrascu isključivo radi obrade mog upita i povratnog kontakta, sukladno Politici privatnosti.",
+  "contactCheckboxLabel": "Suglasan/a sam da Cooperante d.o.o. koristi moje osobne podatke navedene u obrascu isključivo radi obrade mog upita i povratnog kontakta, sukladno <a href='/politika-privatnosti' class='underline'>Politici privatnosti</a>.",
   "newsletterCheckboxLabel": "Želim primati elektroničke obavijesti, newslettere i promotivne informacije o uslugama i projektima Cooperante d.o.o. putem e-pošte.",
   "marketingCheckboxLabel": "Želim primati elektroničke obavijesti, newslettere i promotivne informacije o uslugama i projektima Cooperante d.o.o. putem e-pošte.",
   "termsAndConditionsCheckboxLabel": "Slažem se s pravilima i uvjetima poslovanja",

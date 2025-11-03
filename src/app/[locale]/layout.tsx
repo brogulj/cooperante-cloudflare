@@ -29,7 +29,7 @@ export default async function RootLayout(props: {
   ])
 
   return (
-    <html className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang={locale}>
       <head>
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

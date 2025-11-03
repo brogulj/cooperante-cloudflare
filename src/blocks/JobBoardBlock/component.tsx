@@ -38,7 +38,7 @@ export const JobBoardBlock: React.FC<JobBoardBlockProps> = (params) => {
           {!!links?.length && (
             <div className="flex flex-wrap gap-3 mt-6">
               {links.map(({ link }, i) => (
-                <CMSLink key={i} size="lg" {...link} className="w-full lg:w-auto" />
+                <CMSLink key={i} size="lg" {...link} className="w-full lg:w-auto" locale={locale} />
               ))}
             </div>
           )}

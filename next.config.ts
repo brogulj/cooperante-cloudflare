@@ -21,6 +21,10 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+    loader: 'custom',
+    loaderFile: '/src/image-loader.ts',
+    deviceSizes: [414, 640, 768, 1024, 1280],
+    imageSizes: [128, 265],
   },
   webpack: (webpackConfig: any) => {
     webpackConfig.resolve.extensionAlias = {

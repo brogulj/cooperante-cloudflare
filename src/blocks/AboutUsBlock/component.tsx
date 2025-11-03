@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 import RichText from '@/components/frontend/richtext'
 import { AboutUsBlock as AboutUsBlockType, Media } from '@/payload-types'
+import Image from 'next/image'
 import React from 'react'
 
 export const AboutUsBlock: React.FC<AboutUsBlockType> = (block) => {
@@ -24,10 +24,14 @@ export const AboutUsBlock: React.FC<AboutUsBlockType> = (block) => {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="min-h-[60vh] relative overflow-hidden flex flex-col justify-end items-center flex-1 pb-10 lg:items-start">
-        <img
+        <Image
           src={(backgroundImage as Media)?.url}
           alt={title}
           className="w-full h-full object-cover -z-10 object-center absolute top-0 left-0"
+          width={(backgroundImage as Media)?.width}
+          height={(backgroundImage as Media)?.height}
+          quality={80}
+          sizes="100vw"
         />
         <div className="container flex flex-col gap-4 xl:px-20">
           <h1 className="text-5xl font-medium text-white text-center leading-tight lg:text-left xl:text-6xl">
@@ -64,10 +68,14 @@ export const AboutUsBlock: React.FC<AboutUsBlockType> = (block) => {
           {people.map((p) => {
             return (
               <div key={''} className="max-w-[220px] flex flex-col">
-                <img
+                <Image
                   src={(p.image as Media)?.url ?? ''}
                   alt={p.name ?? ''}
                   className="w-full h-auto object-cover mb-4"
+                  width={(p.image as Media)?.width}
+                  height={(p.image as Media)?.height}
+                  quality={80}
+                  sizes="(max-width: 1024px) 50vw, 15vw"
                 />
                 <div className="text-lg font-semibold text-center">{p.name}</div>
                 <div className="text-base text-muted-foreground text-center whitespace-normal">
@@ -81,11 +89,15 @@ export const AboutUsBlock: React.FC<AboutUsBlockType> = (block) => {
         <div className="lg:hidden flex flex-row gap-6 mb-4 mt-10">
           {people.map((p) => {
             return (
-              <div key={p.name + p.title} className="">
-                <img
+              <div key={p.name + p.title} className="flex-1">
+                <Image
                   src={(p.image as Media)?.url ?? ''}
                   alt={p.name ?? ''}
                   className=" h-auto object-cover mb-2"
+                  width={(p.image as Media)?.width}
+                  height={(p.image as Media)?.height}
+                  quality={80}
+                  sizes="(max-width: 1024px) 50vw, 15vw"
                 />
                 <div className="text-lg font-semibold text-center">{p.name}</div>
                 <div className="text-base text-muted-foreground text-center whitespace-normal">
@@ -102,10 +114,13 @@ export const AboutUsBlock: React.FC<AboutUsBlockType> = (block) => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {values.valuesList?.map((value) => (
             <div key={value.title} className="flex flex-col gap-2 items-start">
-              <img
+              <Image
                 src={(value.icon as Media)?.url ?? ''}
                 alt={value.title ?? ''}
                 className="h-10 w-auto mb-2"
+                width={(value.icon as Media)?.width}
+                height={(value.icon as Media)?.height}
+                quality={80}
               />
               <h3 className="text-2xl leading-tight font-medium">{value.title}</h3>
               <p className="text-lg text-muted-foreground">{value.description}</p>
@@ -156,10 +171,14 @@ export const AboutUsBlock: React.FC<AboutUsBlockType> = (block) => {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 gap-y-10 lg:gap-y-6">
           {ourTeam.members?.map((member, index) => (
             <div key={member.name + index} className="flex flex-col gap-2">
-              <img
+              <Image
                 src={(member.image as Media)?.url ?? ''}
                 alt={member.name ?? ''}
                 className="w-full h-auto object-cover mb-2"
+                width={(member.image as Media)?.width}
+                height={(member.image as Media)?.height}
+                quality={80}
+                sizes="(max-width: 1024px) 50vw, 10vw"
               />
               <h3 className="text-xl leading-tight font-medium">{member.name}</h3>
               <p className="text-base text-muted-foreground">{member.title}</p>
@@ -172,10 +191,14 @@ export const AboutUsBlock: React.FC<AboutUsBlockType> = (block) => {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 gap-y-10 lg:gap-y-6">
           {certificates.map((certificate, index) => (
             <div key={certificate.certificateTitle + index} className="flex flex-col gap-2">
-              <img
+              <Image
                 src={(certificate.certificateImage as Media)?.url ?? ''}
                 alt={certificate.certificateTitle ?? ''}
                 className="w-full h-auto object-cover mb-2"
+                width={(certificate.certificateImage as Media)?.width}
+                height={(certificate.certificateImage as Media)?.height}
+                quality={80}
+                sizes="(max-width: 1024px) 50vw, 10vw"
               />
               <h3 className="text-xl leading-tight font-medium">{certificate.certificateTitle}</h3>
             </div>

@@ -7,6 +7,7 @@ import { Media as MediaType } from '@/payload-types'
 import { Category, User } from '@/payload-types'
 import Link from 'next/link'
 import getT from '@/app/i18n'
+import Image from 'next/image'
 
 export const generateMetadata = async ({
   params,
@@ -24,6 +25,10 @@ export const generateMetadata = async ({
     where: { slug: { equals: slug } },
     locale: locale as AppLocale,
   })
+
+  if (!blogPost.docs[0]) {
+    return { title: 'Blog', description: 'Blog' }
+  }
 
   return { title: blogPost.docs[0].title, description: blogPost.docs[0].excerpt }
 }
@@ -44,6 +49,7 @@ export default async function BlogPostPage({
       collection: 'blogPosts',
       where: { slug: { equals: slug } },
       locale: locale as AppLocale,
+      depth: 1,
     })
   ).docs[0]
 
@@ -55,9 +61,14 @@ export default async function BlogPostPage({
     <div>
       <div className="w-full h-[50vh] relative lg:h-[60vh]">
         {blogPost.headerImage && (
-          <img
+          <Image
             src={(blogPost.headerImage as MediaType).url}
+            alt={blogPost.title}
             className="object-cover h-full w-full"
+            width={(blogPost.headerImage as MediaType).width}
+            height={(blogPost.headerImage as MediaType).height}
+            quality={80}
+            sizes="100vw"
           />
         )}
         <div

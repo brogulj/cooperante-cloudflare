@@ -62,6 +62,7 @@ export const Navbar = ({ navbar }: { navbar: NavbarType }) => {
                   reference={l.reference ? { relationTo: 'pages', value: l.reference.value } : null}
                   url={l.url ?? undefined}
                   label={l.label}
+                  locale={currentLocale}
                 />
               )
             }
@@ -92,6 +93,7 @@ export const Navbar = ({ navbar }: { navbar: NavbarType }) => {
                             }
                             url={subLink.url ?? undefined}
                             label={subLink.label}
+                            locale={currentLocale}
                           />
                         </DropdownMenuItem>
                       )
@@ -191,6 +193,7 @@ export const Navbar = ({ navbar }: { navbar: NavbarType }) => {
                         }
                         url={l.url ?? undefined}
                         label={l.label}
+                        locale={currentLocale}
                       />
                     )
                   }
@@ -219,6 +222,7 @@ export const Navbar = ({ navbar }: { navbar: NavbarType }) => {
                                 }
                                 url={subLink.url ?? undefined}
                                 label={subLink.label}
+                                locale={currentLocale}
                               />
                             )
                           })}

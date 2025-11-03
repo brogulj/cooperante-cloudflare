@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import React from 'react'
@@ -8,6 +7,8 @@ import { LanderHero as LanderHeroType, Media as MediaType } from '@/payload-type
 import { cn } from '@/utilities/ui'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { Media } from '@/components/frontend/Media'
+import { useParams } from 'next/navigation'
+import Image from 'next/image'
 
 export const LanderHero: React.FC<LanderHeroType> = (block) => {
   const title = block.title || ''
@@ -16,7 +17,7 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
   const stats = Array.isArray(block.stats) ? block.stats : []
   const bg = block.backgroundImage
   const dark = block.dark
-
+  const { locale }: { locale: string } = useParams()
   const bgUrl =
     bg && typeof bg === 'object' && (bg as MediaType).url ? getMediaUrl((bg as MediaType).url) : ''
 
@@ -43,6 +44,7 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
                           {...link}
                           className="w-full md:w-auto lg:text-[1.15rem] lg:h-11"
                           size="lg"
+                          locale={locale}
                         />
                       </li>
                     )
@@ -78,10 +80,14 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
                       {logos.map(({ logo }, i) => (
                         <div key={i} className="flex justify-center sm:justify-start">
                           {logo && typeof logo === 'object' && (
-                            <img
+                            <Image
                               src={(logo as MediaType).url}
                               alt={(logo as MediaType).alt}
                               className={cn('h-20 w-auto object-contain', i > 3 && 'md:hidden')}
+                              width={(logo as MediaType).width}
+                              height={(logo as MediaType).height}
+                              quality={80}
+                              sizes="20vw"
                             />
                           )}
                         </div>
@@ -96,12 +102,16 @@ export const LanderHero: React.FC<LanderHeroType> = (block) => {
       </div>
       <div className="min-h-[80vh] select-none inset-0 absolute">
         {bg && (
-          <img
+          <Image
             src={(bg as MediaType).url}
             className="-z-10 object-cover h-full w-full"
             fetchPriority="high"
             alt={(bg as MediaType).alt}
             loading="eager"
+            width={(bg as MediaType).width}
+            height={(bg as MediaType).height}
+            quality={80}
+            sizes="100vw"
           />
         )}
       </div>

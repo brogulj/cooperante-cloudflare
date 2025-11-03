@@ -9,6 +9,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { getLatestBlogPosts } from './server-actions'
 import { LinkBase } from '@/components/ui/locale-link'
 import { useT } from '@/app/i18n/client'
+import Image from 'next/image'
 
 export const BlogPostsBlock: React.FC<BlogPostsBlockProps> = (props) => {
   const { title, description, links } = props
@@ -45,10 +46,14 @@ export const BlogPostsBlock: React.FC<BlogPostsBlockProps> = (props) => {
                     <div className="relative aspect-[16/9] overflow-hidden bg-muted">
                       {post.headerImage ? (
                         <LinkBase lng={locale} href={href} className="group">
-                          <img
+                          <Image
                             src={(post.headerImage as Media).url || ''}
-                            alt=""
+                            alt={post.title || ''}
                             className="object-cover w-full group-hover:scale-105 transition-all duration-300"
+                            width={(post.headerImage as Media).width}
+                            height={(post.headerImage as Media).height}
+                            quality={80}
+                            sizes="(max-width: 768px) 80vw, (max-width: 768px) 50vw, 20vw"
                           />
                         </LinkBase>
                       ) : null}
@@ -65,7 +70,10 @@ export const BlogPostsBlock: React.FC<BlogPostsBlockProps> = (props) => {
                       </h3>
                       {post.publishedAt && (
                         <div className="text-sm text-muted-foreground">
-                          {new Date(post.publishedAt).toLocaleDateString().replaceAll('/', '. ')}.
+                          {new Date(post.publishedAt)
+                            .toLocaleDateString('hr-HR')
+                            .replaceAll('/', '. ')}
+                          .
                         </div>
                       )}
                       {Array.isArray(post.categories) && post.categories.length > 0 && (

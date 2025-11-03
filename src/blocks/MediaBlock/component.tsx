@@ -5,6 +5,7 @@ import React from 'react'
 
 import type { MediaBlock as MediaBlockProps, Media as MediaType } from '@/payload-types'
 import { Media } from '@/components/frontend/Media'
+import Image from 'next/image'
 
 type Props = MediaBlockProps & {
   breakout?: boolean
@@ -39,9 +40,14 @@ export const MediaBlock: React.FC<Props> = (props) => {
       )}
     >
       {(media || staticImage) && (
-        <img
+        <Image
           className={cn('border border-border rounded-[0.8rem]', imgClassName)}
           src={(media as MediaType).url}
+          width={(media as MediaType).width}
+          height={(media as MediaType).height}
+          quality={80}
+          sizes="80vw"
+          alt={(media as MediaType).alt}
         />
       )}
       {caption && (

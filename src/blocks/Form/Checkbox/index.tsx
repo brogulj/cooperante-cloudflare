@@ -36,7 +36,7 @@ export const Checkbox: React.FC<
               * <span className="sr-only">(required)</span>
             </span>
           )}
-          {label}
+          <div dangerouslySetInnerHTML={{ __html: label }}></div>
         </Label>
       </div>
       {errors[name] && <Error name={name} />}

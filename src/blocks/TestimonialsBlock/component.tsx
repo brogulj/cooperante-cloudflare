@@ -1,8 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
 'use client'
 import { useT } from '@/app/i18n/client'
 import { Media, TestimonialsBlock as TestimonialsBlockProps } from '@/payload-types'
 import { StarIcon } from 'lucide-react'
+import Image from 'next/image'
 
 import React, { useState } from 'react'
 
@@ -45,17 +45,27 @@ export const TestimonialsBlock: React.FC<TestimonialsBlockProps> = (props) => {
           <div key={testimonial.id} className="flex flex-col gap-4">
             <div className="grid grid-cols-5 gap-4 lg:gap-6 border border-border rounded-lg px-4 py-4 lg:px-6 lg:py-4">
               <div className="col-span-2 aspect-[3/4] overflow-hidden">
-                <img
+                <Image
                   src={(testimonial.personImage as Media).url || ''}
-                  alt=""
+                  alt={(testimonial.personImage as Media).alt || ''}
+                  width={(testimonial.personImage as Media).width}
+                  height={(testimonial.personImage as Media).height}
+                  quality={80}
+                  sizes="(max-width: 768px) 20vw, 10vw"
                   className="h-full object-cover rounded-md"
                 />
               </div>
               <div className="flex flex-col items-start col-span-3">
-                <img
+                <Image
                   src={(testimonial.companyLogo as Media).url || ''}
                   alt=""
                   className="h-8 w-auto mb-2"
+                  width={
+                    (32 / (testimonial.companyLogo as Media).height) *
+                    (testimonial.companyLogo as Media).width
+                  }
+                  height={32}
+                  quality={80}
                 />
                 <h3 className="text-xl font-medium mb-1 leading-relaxed">
                   {testimonial.personName}

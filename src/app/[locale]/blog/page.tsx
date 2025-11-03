@@ -18,6 +18,7 @@ import { LinkBase } from '@/components/ui/locale-link'
 import getT from '@/app/i18n'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
 
 type SearchParams = Promise<{ page?: string; sort?: string }>
 
@@ -25,11 +26,18 @@ export const generateMetadata = async ({ params }: { params: Promise<{ locale: s
   const { locale } = await params
 
   const payload = await getPayload({ config: configPromise })
-  const page = await payload.find({ collection: 'pages', where: { slug: { equals: 'blog' } } })
+  const page = await payload.find({
+    collection: 'pages',
+    where: { slug: { equals: 'blog' } },
+    locale: locale as AppLocale,
+  })
+  if (!page.docs[0]) {
+    return { title: 'Blog', description: 'Blog' }
+  }
 
   return {
-    title: page.docs[0].meta?.title,
-    description: page.docs[0].meta?.description,
+    title: page.docs[0].meta?.title || 'Blog',
+    description: page.docs[0].meta?.description || 'Blog',
   }
 }
 
@@ -163,10 +171,14 @@ export default async function BlogArchivePage({
                 <LinkBase lng={locale} href={`/blog/${post.slug}`} className="block">
                   <div className="relative aspect-[16/9] overflow-hidden rounded-md border bg-muted">
                     {post.headerImage ? (
-                      <img
+                      <Image
                         src={(post.headerImage as MediaType).url}
                         alt={post.title}
                         className="object-cover h-full w-full"
+                        width={(post.headerImage as MediaType).width}
+                        height={(post.headerImage as MediaType).height}
+                        quality={80}
+                        sizes="(max-width: 768px) 80vw, (max-width: 768px) 50vw, 20vw"
                       />
                     ) : null}
                   </div>
@@ -191,7 +203,7 @@ export default async function BlogArchivePage({
                 </CardTitle>
                 {post.publishedAt && (
                   <p className="text-sm text-muted-foreground mt-1">
-                    {new Date(post.publishedAt).toLocaleDateString().replaceAll('/', '. ')}.
+                    {new Date(post.publishedAt).toLocaleDateString('hr-HR').replaceAll('/', '. ')}.
                   </p>
                 )}
                 <LinkBase

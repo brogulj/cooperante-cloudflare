@@ -1,9 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import React from 'react'
 
-import type { TrustBlock as TrustBlockProps, Media as MediaDoc } from '@/payload-types'
+import Image from 'next/image'
+import type { TrustBlock as TrustBlockProps, Media as MediaDoc, Media } from '@/payload-types'
 import RichText from '@/components/frontend/richtext'
 
 export const TrustBlock: React.FC<TrustBlockProps> = (props) => {
@@ -42,9 +42,12 @@ export const TrustBlock: React.FC<TrustBlockProps> = (props) => {
                   <div className="marquee-items">
                     {[...items, ...items].map((media, i) => (
                       <div className="marquee-item" key={`a-${media?.id ?? i}`}>
-                        <img
-                          src={media?.url || ''}
+                        <Image
+                          src={(media as Media).url || ''}
                           alt={media?.alt || ''}
+                          width={80}
+                          height={(80 / (media as Media).height) * (media as Media).width}
+                          quality={80}
                           className="h-20 md:h-20 lg:h-32 w-auto object-contain brightness-0"
                         />
                       </div>
@@ -53,9 +56,12 @@ export const TrustBlock: React.FC<TrustBlockProps> = (props) => {
                   <div className="marquee-items" aria-hidden="true">
                     {[...items, ...items].map((media, i) => (
                       <div className="marquee-item" key={`b-${media?.id ?? i}`}>
-                        <img
-                          src={media?.url || ''}
+                        <Image
+                          src={(media as Media).url || ''}
                           alt={media?.alt || ''}
+                          width={80}
+                          height={(80 / (media as Media).height) * (media as Media).width}
+                          quality={80}
                           className="h-20 md:h-20 lg:h-32 w-auto object-contain brightness-0"
                         />
                       </div>

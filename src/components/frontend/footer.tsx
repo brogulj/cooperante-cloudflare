@@ -17,7 +17,7 @@ import {
   YoutubeIcon,
 } from 'lucide-react'
 import Link from 'next/link'
-
+import { useParams } from 'next/navigation'
 const WhatsappIcon: React.FC = () => {
   return (
     <svg
@@ -38,7 +38,7 @@ export const Footer = ({ footer }: { footer: FooterType }) => {
   const singleLinks = links.filter(
     (item) => item.type === 'singleLink' && item.singleLinkContent?.link,
   )
-
+  const { locale }: { locale: string } = useParams()
   return (
     <footer className="border-t">
       <div className="max-w-screen-2xl mx-auto">
@@ -136,6 +136,7 @@ export const Footer = ({ footer }: { footer: FooterType }) => {
                           }
                           url={subLink.url ?? undefined}
                           label={subLink.label}
+                          locale={locale}
                         />
                       </li>
                     )

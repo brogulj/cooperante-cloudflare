@@ -4,6 +4,7 @@ import { cn } from '@/utilities/ui'
 import React from 'react'
 
 import type { ImageBlock as ImageBlockProps, Media as MediaType } from '@/payload-types'
+import Image from 'next/image'
 
 type Props = ImageBlockProps & {
   breakout?: boolean
@@ -38,7 +39,15 @@ export const ImageBlock: React.FC<Props> = (props) => {
       )}
     >
       {(image || staticImage) && (
-        <img className={cn('', imgClassName)} src={(image as MediaType).url} />
+        <Image
+          className={cn('', imgClassName)}
+          src={(image as MediaType).url}
+          alt={(image as MediaType).alt}
+          width={(image as MediaType).width}
+          height={(image as MediaType).height}
+          quality={80}
+          sizes="80vw"
+        />
       )}
       {caption && (
         <div

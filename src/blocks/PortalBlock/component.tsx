@@ -1,5 +1,6 @@
 import { Media, PortalBlock as PortalBlockProps } from '@/payload-types'
 import React from 'react'
+import Image from 'next/image'
 
 export const PortalBlock: React.FC<PortalBlockProps> = ({ title, subtitle, list, image }) => {
   return (
@@ -19,10 +20,14 @@ export const PortalBlock: React.FC<PortalBlockProps> = ({ title, subtitle, list,
         </ul>
       </div>
       <div className="flex flex-col justify-end">
-        <img
+        <Image
           src={(image as Media).url}
           alt={(image as Media).alt}
           className="w-full h-full object-cover"
+          width={(image as Media).width}
+          height={(image as Media).height}
+          quality={80}
+          sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>
     </div>

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import { AppLocale } from '@/app/i18n/settings'
@@ -149,10 +150,14 @@ export default async function CategoryPage({
                 <LinkBase lng={locale} href={`/blog/${post.slug}`} className="block">
                   <div className="relative aspect-[16/9] overflow-hidden rounded-md border bg-muted">
                     {post.headerImage ? (
-                      <img
+                      <Image
                         src={(post.headerImage as MediaType).url}
                         alt={post.title}
                         className="object-cover h-full w-full"
+                        width={(post.headerImage as MediaType).width}
+                        height={(post.headerImage as MediaType).height}
+                        quality={80}
+                        sizes="(max-width: 768px) 80vw, (max-width: 768px) 50vw, 20vw"
                       />
                     ) : null}
                   </div>
