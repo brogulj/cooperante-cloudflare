@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
+import { useT } from '@/app/i18n/client'
 import { Media, WorkersTestimonialsBlock as WorkersTestimonialsBlockProps } from '@/payload-types'
 import { StarIcon } from 'lucide-react'
 
@@ -9,7 +10,7 @@ const CHAR_LIMIT = 150
 
 const TestimonialText: React.FC<{ text: string }> = ({ text }) => {
   const [isExpanded, setIsExpanded] = useState(false)
-
+  const { t } = useT('common')
   const isLong = text.length > CHAR_LIMIT
   const displayText = isExpanded ? text : text.slice(0, CHAR_LIMIT) + (isLong ? '...' : '')
 
@@ -21,7 +22,7 @@ const TestimonialText: React.FC<{ text: string }> = ({ text }) => {
           onClick={() => setIsExpanded(!isExpanded)}
           className="text-sm font-semibold text-primary hover:opacity-80 transition-opacity w-fit"
         >
-          {isExpanded ? 'Read Less' : 'Read More'}
+          {isExpanded ? t('less') : t('more')}
         </button>
       )}
     </div>

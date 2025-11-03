@@ -134,7 +134,7 @@ export const IndustriesGlobeBlock: React.FC<IndustriesGlobeBlockProps> = (props)
 
           <h3 className="text-xl font-medium leading-relaxed mt-4">{t('countriesOfOrigin')}</h3>
           {Array.isArray(countries) && countries.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               {countries.map((c) => (
                 <div
                   key={c.id ?? c.country}

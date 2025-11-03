@@ -74,5 +74,7 @@
     "info": "Information",
     "infoCookieStorage": "Your preferences are stored locally in your browser for 365 days. You can change these settings at any time by visiting this page.",
     "reset": "Reset"
-  }
+  },
+  "more": "More",
+  "less": "Less"
 }

@@ -71,7 +71,7 @@ export default async function BlogPostPage({
           )}
           {blogPost.publishedAt && (
             <p className=" text-sm lg:text-base">
-              {new Date(blogPost.publishedAt).toLocaleDateString().replaceAll('/', '. ')}.
+              {new Date(blogPost.publishedAt).toLocaleDateString('hr-HR').replaceAll('/', '. ')}.
             </p>
           )}
         </div>

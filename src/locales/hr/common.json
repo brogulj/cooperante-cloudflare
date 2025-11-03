@@ -74,5 +74,7 @@
     "info": "Informacija",
     "infoCookieStorage": "Vaše postavke se čuvaju lokalno u vašem pregledniku tijekom 365 dana. Ove postavke možete promijeniti bilo kada posjetom ove stranice.",
     "reset": "Resetiraj"
-  }
+  },
+  "more": "Više",
+  "less": "Manje"
 }

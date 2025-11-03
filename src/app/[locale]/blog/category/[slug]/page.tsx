@@ -177,7 +177,7 @@ export default async function CategoryPage({
                 </CardTitle>
                 {post.publishedAt && (
                   <p className="text-sm text-muted-foreground mt-1">
-                    {new Date(post.publishedAt).toLocaleDateString().replaceAll('/', '. ')}.
+                    {new Date(post.publishedAt).toLocaleDateString('hr-HR').replaceAll('/', '. ')}.
                   </p>
                 )}
               </CardContent>
