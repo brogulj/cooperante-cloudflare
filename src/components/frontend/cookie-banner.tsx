@@ -15,6 +15,15 @@ type CookiePreference = {
 
 const COOKIE_CONSENT_NAME = 'cookie-consent'
 const COOKIE_EXPIRY_DAYS = 365
+const GA4_TRACKING_ID = 'G-RQMMXXJFLH'
+
+// Declare gtag on window
+declare global {
+  interface Window {
+    dataLayer: Record<string, unknown>[]
+    gtag: (command: string, ...args: (string | Record<string, unknown> | Date)[]) => void
+  }
+}
 
 export const CookieBanner = () => {
   const { t } = useT('common')
@@ -32,6 +41,16 @@ export const CookieBanner = () => {
     const savedConsent = localStorage.getItem(COOKIE_CONSENT_NAME)
     if (!savedConsent) {
       setIsVisible(true)
+    } else {
+      // If consent exists, check analytics preference and load GA4 if enabled
+      try {
+        const data = JSON.parse(savedConsent)
+        if (data.analytics) {
+          loadGA4()
+        }
+      } catch (error) {
+        console.error('Failed to parse saved consent:', error)
+      }
     }
   }, [])
 
@@ -109,20 +128,20 @@ export const CookieBanner = () => {
 
                 <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 sm:flex-shrink-0">
                   <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleRejectAll}
-                    className="text-xs sm:text-sm"
-                  >
-                    {t('cookies.rejectAll')}
-                  </Button>
-                  <Button
                     variant="default"
                     size="sm"
                     onClick={handleAcceptAll}
                     className="text-xs sm:text-sm"
                   >
                     {t('cookies.acceptAll')}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleRejectAll}
+                    className="text-xs sm:text-sm"
+                  >
+                    {t('cookies.rejectAll')}
                   </Button>
                   <Button
                     variant="ghost"
@@ -254,13 +273,40 @@ export const CookieBanner = () => {
 }
 
 // Helper function to load scripts based on preferences
-function loadScriptsBasedOnPreferences(_prefs: CookiePreference) {
-  // Future: implement script loading based on preferences
-  // For now, scripts should be loaded conditionally in your app components
+function loadScriptsBasedOnPreferences(prefs: CookiePreference) {
+  // Load GA4 if analytics preference is enabled
+  if (prefs.marketing) {
+    loadGA4()
+  }
 }
 
-// Note: These functions are templates for script loading
-// In production, consider using conditional script loading in your layout or using a tag manager
+// Load Google Analytics 4 tracking script
+function loadGA4() {
+  // Prevent duplicate loading
+  if (window.gtag) return
+
+  try {
+    // Initialize dataLayer
+    window.dataLayer = window.dataLayer || []
+
+    // Define gtag function
+    function gtag(command: string, ...args: (string | Record<string, unknown> | Date)[]) {
+      window.dataLayer.push({ command, args })
+    }
+
+    window.gtag = gtag
+    gtag('js', new Date())
+    gtag('config', GA4_TRACKING_ID)
+
+    // Add GA4 script to document
+    const script = document.createElement('script')
+    script.async = true
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_TRACKING_ID}`
+    document.head.appendChild(script)
+  } catch (error) {
+    console.error('Failed to load GA4:', error)
+  }
+}
 
 // Export a function to get current cookie preferences
 export function getCookiePreferences(): CookiePreference | null {

@@ -4,7 +4,7 @@ import { cookieName, fallbackLng, headerName, languages } from './app/i18n/setti
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js|site.webmanifest).*)',
+    '/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js|site.webmanifest|sitemap.xml).*)',
     '/api/media/file/:path*',
   ],
 }
@@ -22,6 +22,7 @@ const dontTranslatePaths = [
   '/brick-logo.png',
   '/api',
   '/admin',
+  '/sitemap.xml',
 ]
 
 export function middleware(req: NextRequest) {

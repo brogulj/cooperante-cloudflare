@@ -293,6 +293,8 @@ const translateText = async (text: { path: string; value: string }[], locale: st
       `Do not change the formatting of the text, only the text itself.\n` +
       `Do not add any additional text to the response.\n` +
       `Do not escape the backslash characters.\n` +
+      `In the CSV field, do not mess up the newline characters and dont escape them` +
+      `when translating csv fields, do not double escape backslash characters, use only a single backslash` +
       `${JSON.stringify(text, null, 2)}`,
     config: {
       responseMimeType: 'application/json',
@@ -499,8 +501,44 @@ function generateRandomId(): string {
   return id
 }
 
-// Helper function to find all link fields and regenerate their IDs
+// Helper function to find all link fields nested inside 'root' and regenerate their IDs
 function regenerateLinkIds(obj: unknown, visited = new WeakSet()): unknown {
+  if (obj === null || obj === undefined) {
+    return obj
+  }
+
+  if (typeof obj !== 'object') {
+    return obj
+  }
+
+  // Avoid infinite loops with circular references
+  if (visited.has(obj as object)) {
+    return obj
+  }
+  visited.add(obj as object)
+
+  if (Array.isArray(obj)) {
+    // Don't regenerate link IDs outside of root objects - just recursively process
+    return obj.map((item) => regenerateLinkIds(item, visited))
+  }
+
+  const processed: Record<string, unknown> = {}
+  const record = obj as Record<string, unknown>
+
+  for (const [key, value] of Object.entries(record)) {
+    // Only regenerate link IDs if we're inside a 'root' object
+    if (key === 'root' && value && typeof value === 'object') {
+      processed[key] = regenerateLinkIdsInRoot(value, visited)
+    } else {
+      processed[key] = regenerateLinkIds(value, visited)
+    }
+  }
+
+  return processed
+}
+
+// Helper function to regenerate link IDs only within a root object
+function regenerateLinkIdsInRoot(obj: unknown, visited = new WeakSet()): unknown {
   if (obj === null || obj === undefined) {
     return obj
   }
@@ -532,7 +570,7 @@ function regenerateLinkIds(obj: unknown, visited = new WeakSet()): unknown {
         }
       }
       // Recursively process nested structures
-      return regenerateLinkIds(item, visited)
+      return regenerateLinkIdsInRoot(item, visited)
     })
   }
 
@@ -540,7 +578,7 @@ function regenerateLinkIds(obj: unknown, visited = new WeakSet()): unknown {
   const record = obj as Record<string, unknown>
 
   for (const [key, value] of Object.entries(record)) {
-    processed[key] = regenerateLinkIds(value, visited)
+    processed[key] = regenerateLinkIdsInRoot(value, visited)
   }
 
   return processed

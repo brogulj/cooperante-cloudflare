@@ -499,7 +499,7 @@ function generateRandomId(): string {
   return id
 }
 
-// Helper function to find all link fields and regenerate their IDs
+// Helper function to find all link fields nested inside 'root' and regenerate their IDs
 function regenerateLinkIds(obj: unknown, visited = new WeakSet()): unknown {
   if (obj === null || obj === undefined) {
     return obj
@@ -540,7 +540,59 @@ function regenerateLinkIds(obj: unknown, visited = new WeakSet()): unknown {
   const record = obj as Record<string, unknown>
 
   for (const [key, value] of Object.entries(record)) {
-    processed[key] = regenerateLinkIds(value, visited)
+    // Only regenerate link IDs if we're inside a 'root' object
+    if (key === 'root' && value && typeof value === 'object') {
+      processed[key] = regenerateLinkIdsInRoot(value, visited)
+    } else {
+      processed[key] = regenerateLinkIds(value, visited)
+    }
+  }
+
+  return processed
+}
+
+// Helper function to regenerate link IDs only within a root object
+function regenerateLinkIdsInRoot(obj: unknown, visited = new WeakSet()): unknown {
+  if (obj === null || obj === undefined) {
+    return obj
+  }
+
+  if (typeof obj !== 'object') {
+    return obj
+  }
+
+  // Avoid infinite loops with circular references
+  if (visited.has(obj as object)) {
+    return obj
+  }
+  visited.add(obj as object)
+
+  if (Array.isArray(obj)) {
+    return obj.map((item) => {
+      // Check if this is a link field object (has a 'link' property and an 'id' property)
+      if (
+        item &&
+        typeof item === 'object' &&
+        'link' in item &&
+        typeof (item as Record<string, unknown>).link === 'object' &&
+        'id' in item
+      ) {
+        // Regenerate the ID for this link
+        return {
+          ...item,
+          id: generateRandomId(),
+        }
+      }
+      // Recursively process nested structures
+      return regenerateLinkIdsInRoot(item, visited)
+    })
+  }
+
+  const processed: Record<string, unknown> = {}
+  const record = obj as Record<string, unknown>
+
+  for (const [key, value] of Object.entries(record)) {
+    processed[key] = regenerateLinkIdsInRoot(value, visited)
   }
 
   return processed
